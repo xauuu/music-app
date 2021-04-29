@@ -6,7 +6,6 @@ import android.media.MediaMetadataRetriever
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,13 +15,13 @@ import com.example.finalproject.data.Music
 import com.makeramen.roundedimageview.RoundedImageView
 
 class LibraryAdapter(
-        private val data: List<Music>,
+        private val data: ArrayList<Music>,
         private val context: Context,
 ): RecyclerView.Adapter<LibraryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibraryAdapter.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.list_item, parent, false)
+        val view = layoutInflater.inflate(R.layout.song_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -32,7 +31,7 @@ class LibraryAdapter(
         holder.text1.text = item.name
         holder.text2.text = item.singer
 
-        val image: ByteArray? = holder.getAlbumArt(item.songUrl)
+        val image: ByteArray? = item.songUrl?.let { holder.getAlbumArt(it) }
 
         if (image != null) {
             Glide.with(context).asBitmap().load(image).into(holder.img)
@@ -43,7 +42,8 @@ class LibraryAdapter(
         holder.itemView.setOnClickListener {
             val intent = Intent(context, SongActivity::class.java)
             intent.putExtra("position", position)
-            intent.putExtra("list", 1)
+            intent.putExtra("check", 1)
+            intent.putExtra("list", data)
             context.startActivity(intent)
         }
 

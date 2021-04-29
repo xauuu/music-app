@@ -7,6 +7,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.finalproject.fragment.AlbumFragment
 import com.example.finalproject.fragment.HomeFragment
 import com.example.finalproject.fragment.LibraryFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -34,7 +35,8 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(fragment)
                 }
                 R.id.search -> {
-
+                    fragment = AlbumFragment()
+                    loadFragment(fragment)
                 }
                 R.id.library -> {
                     fragment = LibraryFragment()

@@ -14,13 +14,13 @@ import com.example.finalproject.data.Music
 import com.makeramen.roundedimageview.RoundedImageView
 
 class SongAdapter(
-        private val data: List<Music>,
+        private val data: ArrayList<Music>,
         private val context: Context
 ): RecyclerView.Adapter<SongAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.list_item, parent, false)
+        val view = layoutInflater.inflate(R.layout.song_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -33,7 +33,8 @@ class SongAdapter(
         holder.itemView.setOnClickListener {
             val intent = Intent(context, SongActivity::class.java)
             intent.putExtra("position", position)
-            intent.putExtra("list", 0)
+            intent.putExtra("check", 0)
+            intent.putExtra("list", data)
             context.startActivity(intent)
         }
 

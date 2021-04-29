@@ -2,29 +2,25 @@ package com.example.finalproject.fragment
 
 import android.Manifest
 import android.Manifest.permission.*
-import android.bluetooth.BluetoothGattCharacteristic
-import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.provider.CalendarContract.Attendees.query
 import android.provider.MediaStore
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentResolverCompat.query
+import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
 import com.example.finalproject.adapter.LibraryAdapter
 import com.example.finalproject.data.Music
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class LibraryFragment : Fragment() {
@@ -33,6 +29,7 @@ class LibraryFragment : Fragment() {
     private var musicFiles: ArrayList<Music> = ArrayList()
     private lateinit var recyclerView: RecyclerView
     lateinit var view1: View
+    lateinit var progressBar: ProgressBar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -40,7 +37,9 @@ class LibraryFragment : Fragment() {
         view1 = inflater.inflate(R.layout.fragment_library, container, false)
         activity?.title = "Thư viện"
 
+        progressBar = view1.findViewById(R.id.progressBar)
         recyclerView = view1.findViewById(R.id.rvListLb)
+        recyclerView.layoutManager = LinearLayoutManager(view1.context)
         if (checkPermission()) {
             loadSong()
         }
@@ -48,10 +47,15 @@ class LibraryFragment : Fragment() {
     }
 
     private fun loadSong() {
-        musicFiles = getAllAudio(requireContext())
-        recyclerView = view1.findViewById(R.id.rvListLb)
-        recyclerView.layoutManager = LinearLayoutManager(view1.context)
-        recyclerView.adapter = LibraryAdapter(musicFiles, requireContext())
+        CoroutineScope(Dispatchers.IO).launch {
+            progressBar.visibility = View.VISIBLE
+            withContext(context = Dispatchers.Main) {
+                musicFiles = getAllAudio(requireContext())
+                recyclerView.adapter = LibraryAdapter(musicFiles, requireContext())
+                progressBar.visibility = View.GONE
+            }
+        }
+
     }
 
     private fun checkPermission(): Boolean {

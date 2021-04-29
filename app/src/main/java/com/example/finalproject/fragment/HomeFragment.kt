@@ -22,7 +22,7 @@ class HomeFragment : Fragment() {
     lateinit var v: View
     private lateinit var recyclerView: RecyclerView
     lateinit var progressBar: ProgressBar
-    lateinit var songs: List<Music>
+    lateinit var songs: ArrayList<Music>
 
     override fun onCreateView(
             inflater: LayoutInflater,

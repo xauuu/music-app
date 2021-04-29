@@ -2,14 +2,10 @@ package com.example.finalproject.data
 
 import android.annotation.SuppressLint
 import android.os.AsyncTask
-import android.renderscript.Sampler
 import android.util.Log
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
-import java.io.IOException
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL

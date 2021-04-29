@@ -5,5 +5,8 @@ import retrofit2.http.GET
 
 interface ApiClient {
     @GET("/api/music")
-    suspend fun getSongs(): Response<List<Music>>
+    suspend fun getSongs(): Response<ArrayList<Music>>
+
+    @GET("/api/album")
+    suspend fun getAlbums(): Response<ArrayList<Album>>
 }

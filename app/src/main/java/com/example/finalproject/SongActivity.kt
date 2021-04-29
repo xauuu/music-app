@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import android.widget.SeekBar
@@ -94,6 +95,8 @@ class SongActivity : AppCompatActivity() {
                 position + 1
             }
             setAudio(position)
+            btPlay.setImageResource(R.drawable.ic_baseline_pause_24)
+            mediaPlayer.start()
         }
 //        @SuppressLint("HandlerLeak")
 //        var handler = object : Handler() {
@@ -135,13 +138,8 @@ class SongActivity : AppCompatActivity() {
 
     private fun getIntentMethod() {
         position = intent.getIntExtra("position", -1)
-        check = intent.getIntExtra("list", -1)
-
-        if (check == 1) {
-            listSongs = LibraryFragment().getAllAudio(this)
-        } else {
-            getSongServer()
-        }
+        check = intent.getIntExtra("check", -1)
+        listSongs = intent.getSerializableExtra("list") as ArrayList<Music>
 
         setAudio(position)
     }
@@ -163,7 +161,7 @@ class SongActivity : AppCompatActivity() {
         if (check == 0) {
             Glide.with(this).load(listSongs[pos].imageUrl).into(rivImg)
         } else {
-            val image: ByteArray? = getAlbumArt(listSongs[pos].songUrl)
+            val image: ByteArray? = listSongs[pos].songUrl?.let { getAlbumArt(it) }
             if (image != null) {
                 Glide.with(this).asBitmap().load(image).into(rivImg)
             } else {
