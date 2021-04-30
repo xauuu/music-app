@@ -1,7 +1,7 @@
 package com.example.finalproject.adapter
 
 import android.content.Context
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.finalproject.AlbumSongsActivity
 import com.example.finalproject.R
 import com.example.finalproject.data.Album
 
@@ -29,7 +30,23 @@ class AlbumAdapter(
         holder.albumName.text = item.name
 
         holder.itemView.setOnClickListener {
-            Log.e("id", item.id.toString())
+//            val fragment = AlbumSongsFragment()
+//            val bundle = Bundle()
+//            bundle.putInt("album_id", item.id)
+//            bundle.putString("name", item.name)
+//            bundle.putString("image", item.imageUrl)
+//            fragment.arguments = bundle
+//            val appCompatActivity = it.context as AppCompatActivity
+//            appCompatActivity.supportFragmentManager
+//                .beginTransaction()
+//                .replace(R.id.frame_container, fragment)
+//                .addToBackStack(null)
+//                .commit()
+            val intent = Intent(context, AlbumSongsActivity::class.java)
+            intent.putExtra("id", item.id)
+            intent.putExtra("name", item.name)
+            intent.putExtra("image", item.imageUrl)
+            context.startActivity(intent)
         }
     }
 
