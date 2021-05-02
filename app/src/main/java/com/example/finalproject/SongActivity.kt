@@ -1,34 +1,32 @@
 package com.example.finalproject
 
-import android.media.AudioManager
+import android.annotation.SuppressLint
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
-import android.media.audiofx.Visualizer
+import android.media.MediaPlayer.OnCompletionListener
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Message
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.finalproject.data.ApiAdapter
 import com.example.finalproject.data.Music
-import com.example.finalproject.data.MusicServer
-import com.example.finalproject.fragment.HomeFragment
-import com.example.finalproject.fragment.LibraryFragment
-import com.gauravk.audiovisualizer.visualizer.BarVisualizer
 import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer
 import com.makeramen.roundedimageview.RoundedImageView
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SongActivity : AppCompatActivity() {
+class SongActivity : AppCompatActivity(), OnCompletionListener {
 
     private var mediaPlayer = MediaPlayer()
 
@@ -45,12 +43,9 @@ class SongActivity : AppCompatActivity() {
     lateinit var seekBar: SeekBar
     lateinit var tvCurrentTime: TextView
     lateinit var tvTotalTime: TextView
-    lateinit var visualizer: CircleLineVisualizer
 
     private var position = -1
     private var check = -1
-
-    private var handler: Handler = Handler()
 
     lateinit var playThread: Thread
     lateinit var prevThread: Thread
@@ -78,46 +73,27 @@ class SongActivity : AppCompatActivity() {
 
             }
         })
-        runOnUiThread(object : Runnable {
-            override fun run() {
-                var current = mediaPlayer.currentPosition
-                seekBar.progress = current
-                tvCurrentTime.text = formattedTime(current / 1000)
 
-                handler.postDelayed(this, 1000)
-            }
-        })
+        @SuppressLint("HandlerLeak")
+        val handler = object : Handler() {
+            override fun handleMessage(msg: Message) {
+                val currentPosition = msg.what
 
-        mediaPlayer.setOnCompletionListener {
-            position = if (position + 1 > listSongs.size - 1) {
-                0
-            } else {
-                position + 1
+                seekBar.progress = currentPosition
+                tvCurrentTime.text = formattedTime(currentPosition / 1000)
             }
-            setAudio(position)
-            btPlay.setImageResource(R.drawable.ic_baseline_pause_24)
-            mediaPlayer.start()
         }
-//        @SuppressLint("HandlerLeak")
-//        var handler = object : Handler() {
-//            override fun handleMessage(msg: Message) {
-//                var currentPosition = msg.what
-//
-//                seekBar.progress = currentPosition
-//                tvCurrentTime.text = formattedTime(currentPosition / 1000)
-//            }
-//        }
-//        Thread(Runnable {
-//            while (mediaPlayer != null) {
-//                try {
-//                    var msg = Message()
-//                    msg.what = mediaPlayer.currentPosition
-//                    handler.sendMessage(msg)
-//                    Thread.sleep(1000)
-//                } catch (e: InterruptedException) {
-//                }
-//            }
-//        }).start()
+        Thread(Runnable {
+            while (true) {
+                try {
+                    var msg = Message()
+                    msg.what = mediaPlayer.currentPosition
+                    handler.sendMessage(msg)
+                    Thread.sleep(100)
+                } catch (e: InterruptedException) {
+                }
+            }
+        }).start()
 
     }
 
@@ -144,12 +120,6 @@ class SongActivity : AppCompatActivity() {
         setAudio(position)
     }
 
-    private fun getSongServer() = runBlocking {
-            val service = ApiAdapter.makeRetrofitService
-            withContext(Dispatchers.Default) {
-                listSongs = service.getSongs().body() as ArrayList<Music>
-            }
-        }
     private fun setAudio(pos: Int) {
         btPlay.setImageResource(R.drawable.ic_baseline_pause_24)
 
@@ -170,20 +140,25 @@ class SongActivity : AppCompatActivity() {
         }
 
         rivImg.startAnimation(
-                AnimationUtils.loadAnimation(this, R.anim.route)
+            AnimationUtils.loadAnimation(this, R.anim.route)
         )
         mediaPlayer = MediaPlayer.create(applicationContext, Uri.parse(listSongs[pos].songUrl))
         mediaPlayer.start()
-
-//        if (mediaPlayer.audioSessionId != AudioManager.ERROR) {
-//            visualizer.setAudioSessionId(mediaPlayer.audioSessionId)
-//        }
-//        visualizer.isEnabled = true
-
+        mediaPlayer.setOnCompletionListener(this)
         seekBar.max = mediaPlayer.duration
 
         tvTotalTime.text = formattedTime(mediaPlayer.duration / 1000)
+
     }
+
+    private fun updateViews(id: Int) {
+        val service = ApiAdapter.makeRetrofitService
+        CoroutineScope(Dispatchers.IO).launch {
+            service.updateSong(id)
+            Log.e("Updated", "Đã cập nhật lươt nghe bài hát có id = ${id.toString()}")
+        }
+    }
+
     override fun onResume() {
         playThreadBtn()
         nextThreadBtn()
@@ -207,13 +182,14 @@ class SongActivity : AppCompatActivity() {
 
             position = if (position - 1 < 0) listSongs.size - 1 else position - 1
             setAudio(position)
+            mediaPlayer.setOnCompletionListener(this)
         } else {
             mediaPlayer.stop()
             mediaPlayer.release()
 
             position = if (position - 1 < 0) listSongs.size - 1 else position - 1
             setAudio(position)
-            btPlay.setImageResource(R.drawable.ic_play)
+            btPlay.setImageResource(R.drawable.ic_play_24)
             mediaPlayer.pause()
         }
     }
@@ -234,13 +210,14 @@ class SongActivity : AppCompatActivity() {
 
             position = if (position + 1 > listSongs.size - 1) 0 else position + 1
             setAudio(position)
+            mediaPlayer.setOnCompletionListener(this)
         } else {
             mediaPlayer.stop()
             mediaPlayer.release()
 
             position = if (position + 1 > listSongs.size - 1) 0 else position + 1
             setAudio(position)
-            btPlay.setImageResource(R.drawable.ic_play)
+            btPlay.setImageResource(R.drawable.ic_play_24)
             mediaPlayer.pause()
         }
     }
@@ -256,14 +233,14 @@ class SongActivity : AppCompatActivity() {
 
     private fun playPauseBtnClicked() {
         if (mediaPlayer.isPlaying) {
-            btPlay.setImageResource(R.drawable.ic_play)
+            btPlay.setImageResource(R.drawable.ic_play_24)
             mediaPlayer.pause()
             rivImg.animation = null
         } else {
             btPlay.setImageResource(R.drawable.ic_baseline_pause_24)
             mediaPlayer.start()
             rivImg.startAnimation(
-                    AnimationUtils.loadAnimation(this, R.anim.route)
+                AnimationUtils.loadAnimation(this, R.anim.route)
             )
         }
     }
@@ -296,5 +273,13 @@ class SongActivity : AppCompatActivity() {
         super.onDestroy()
         mediaPlayer.stop()
         mediaPlayer.release()
+    }
+
+    override fun onCompletion(mp: MediaPlayer?) {
+        updateViews(listSongs[position].id)
+        nextBtnClicked()
+        btPlay.setImageResource(R.drawable.ic_baseline_pause_24)
+        mediaPlayer.start()
+        mediaPlayer.setOnCompletionListener(this)
     }
 }
