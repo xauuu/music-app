@@ -29,7 +29,7 @@ class LibraryAdapter(
         var item = data[position]
 //        Picasso.with(context).load(item.imageUrl).into(holder.img)
         holder.text1.text = item.name
-        holder.text2.text = item.singer
+        holder.text2.text = item.artist
 
         val image: ByteArray? = item.songUrl?.let { holder.getAlbumArt(it) }
 

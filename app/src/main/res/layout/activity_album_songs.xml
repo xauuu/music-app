@@ -50,13 +50,13 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="@dimen/text_size_large"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/albumArtist"
+                    app:layout_constraintBottom_toTopOf="@+id/albumYear"
                     app:layout_constraintLeft_toRightOf="@+id/albumArt"
                     app:layout_constraintRight_toRightOf="parent"
                     tools:text="Extensions" />
 
                 <TextView
-                    android:id="@+id/albumArtist"
+                    android:id="@+id/albumYear"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"

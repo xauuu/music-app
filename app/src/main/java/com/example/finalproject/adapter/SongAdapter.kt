@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,11 +13,15 @@ import com.example.finalproject.R
 import com.example.finalproject.SongActivity
 import com.example.finalproject.data.Music
 import com.makeramen.roundedimageview.RoundedImageView
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SongAdapter(
         private val data: ArrayList<Music>,
         private val context: Context
 ): RecyclerView.Adapter<SongAdapter.ViewHolder>() {
+
+    var songsList = ArrayList<Music>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -28,7 +33,7 @@ class SongAdapter(
         var item = data[position]
         Glide.with(context).load(item.imageUrl).into(holder.img)
         holder.text1.text = item.name
-        holder.text2.text = item.singer
+        holder.text2.text = item.artist
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, SongActivity::class.java)
@@ -43,6 +48,7 @@ class SongAdapter(
     override fun getItemCount(): Int {
         return data.size
     }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val img: RoundedImageView = itemView.findViewById(R.id.ivItemImage)
         val text1: TextView = itemView.findViewById(R.id.songTitle)

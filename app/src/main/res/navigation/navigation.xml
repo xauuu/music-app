@@ -3,13 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/mainActivity">
+    app:startDestination="@id/homeFragment">
 
 
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.finalproject.fragment.HomeFragment"
-        android:label="HomeFragment" />
     <fragment
         android:id="@+id/libraryFragment"
         android:name="com.example.finalproject.fragment.LibraryFragment"
@@ -23,9 +19,34 @@
         android:name="com.example.finalproject.SongActivity"
         android:label="activity_song2"
         tools:layout="@layout/activity_song2" />
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.example.finalproject.fragment.AlbumFragment"
+        android:label="AlbumFragment" >
+        <action
+            android:id="@+id/action_albumFragment_to_albumSongsActivity"
+            app:destination="@id/albumSongsActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.finalproject.fragment.SearchFragment"
+        android:label="SearchFragment" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.finalproject.fragment.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_albumFragment"
+            app:destination="@id/albumFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_libraryFragment"
+            app:destination="@id/libraryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
     <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.finalproject.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
+        android:id="@+id/albumSongsActivity"
+        android:name="com.example.finalproject.AlbumSongsActivity"
+        android:label="AlbumSongsActivity" />
 </navigation>

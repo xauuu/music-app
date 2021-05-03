@@ -1,16 +1,18 @@
 package com.example.finalproject
 
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.findNavController
 import com.example.finalproject.fragment.AlbumFragment
 import com.example.finalproject.fragment.HomeFragment
 import com.example.finalproject.fragment.LibraryFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.finalproject.fragment.SearchFragment
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import okhttp3.*
 
@@ -22,20 +24,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        toolbar = supportActionBar!!
         fragment = HomeFragment()
         loadFragment(fragment)
 
         val navigation: ChipNavigationBar = findViewById(R.id.bottom_navigation)
         navigation.setItemSelected(R.id.home, true)
         navigation.setOnItemSelectedListener { item ->
+
             when (item) {
                 R.id.home -> {
                     fragment = HomeFragment()
                     loadFragment(fragment)
                 }
                 R.id.search -> {
-                    fragment = AlbumFragment()
+                    fragment = SearchFragment()
                     loadFragment(fragment)
                 }
                 R.id.library -> {
@@ -43,12 +45,11 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(fragment)
                 }
                 R.id.setting -> {
-
+                    fragment = AlbumFragment()
+                    loadFragment(fragment)
                 }
             }
         }
-//        fragment = HomeFragment()
-//        loadFragment(fragment)
     }
 
     private fun loadFragment(fragment: Fragment) {

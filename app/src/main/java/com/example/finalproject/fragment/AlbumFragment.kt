@@ -1,6 +1,7 @@
 package com.example.finalproject.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -37,16 +38,21 @@ class AlbumFragment : Fragment() {
         val service = ApiAdapter.makeRetrofitService
         CoroutineScope(Dispatchers.IO).launch {
             progressBar.visibility = View.VISIBLE
-            val response = service.getAlbums()
-            withContext(context = Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    album = response.body()!!
-                    recyclerView.adapter = AlbumAdapter(album, requireContext())
-                    progressBar.visibility = View.GONE
-                } else {
-                    progressBar.visibility = View.VISIBLE
+            try {
+                val response = service.getAlbums()
+                withContext(context = Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        album = response.body()!!
+                        recyclerView.adapter = AlbumAdapter(album, requireContext())
+                        progressBar.visibility = View.GONE
+                    } else {
+                        progressBar.visibility = View.VISIBLE
+                    }
                 }
+            } catch (e: Exception) {
+                e.message?.run { Log.e("NETWORK", this) }
             }
+
         }
         return view
     }

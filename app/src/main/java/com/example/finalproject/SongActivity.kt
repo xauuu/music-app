@@ -10,7 +10,6 @@ import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
 import android.util.Log
-import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import android.widget.SeekBar
@@ -19,12 +18,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.finalproject.data.ApiAdapter
 import com.example.finalproject.data.Music
-import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SongActivity : AppCompatActivity(), OnCompletionListener {
 
@@ -126,7 +123,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         tvTitle.ellipsize = TextUtils.TruncateAt.MARQUEE
         tvTitle.isSelected = true
         tvTitle.text = listSongs[pos].name
-        tvArtist.text = listSongs[pos].singer
+        tvArtist.text = listSongs[pos].artist
 
         if (check == 0) {
             Glide.with(this).load(listSongs[pos].imageUrl).into(rivImg)

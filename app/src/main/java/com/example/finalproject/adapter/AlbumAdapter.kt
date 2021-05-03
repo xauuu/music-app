@@ -30,22 +30,11 @@ class AlbumAdapter(
         holder.albumName.text = item.name
 
         holder.itemView.setOnClickListener {
-//            val fragment = AlbumSongsFragment()
-//            val bundle = Bundle()
-//            bundle.putInt("album_id", item.id)
-//            bundle.putString("name", item.name)
-//            bundle.putString("image", item.imageUrl)
-//            fragment.arguments = bundle
-//            val appCompatActivity = it.context as AppCompatActivity
-//            appCompatActivity.supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.frame_container, fragment)
-//                .addToBackStack(null)
-//                .commit()
             val intent = Intent(context, AlbumSongsActivity::class.java)
             intent.putExtra("id", item.id)
             intent.putExtra("name", item.name)
             intent.putExtra("image", item.imageUrl)
+            intent.putExtra("year", item.year)
             context.startActivity(intent)
         }
     }
