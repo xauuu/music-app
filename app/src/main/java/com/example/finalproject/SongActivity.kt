@@ -25,6 +25,7 @@ import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class SongActivity : AppCompatActivity(), OnCompletionListener {
 
@@ -115,10 +116,12 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             if (repeatBoolean) {
                 repeatBoolean = false
                 btRepeat.setImageResource(R.drawable.ic_repeat)
+                btRepeat.setColorFilter(getColor(applicationContext, R.color.colorPrimaryText), SRC_IN)
                 Toast.makeText(this, "Huỷ lặp bài hát hiện tại", Toast.LENGTH_SHORT).show()
             } else {
                 repeatBoolean = true
                 btRepeat.setImageResource(R.drawable.ic_repeat1)
+                btRepeat.setColorFilter(getColor(applicationContext, R.color.colorAccent), SRC_IN)
                 Toast.makeText(this, "Lặp bài hát hiện tại", Toast.LENGTH_SHORT).show()
             }
         }
@@ -212,14 +215,24 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             mediaPlayer.stop()
             mediaPlayer.release()
 
-            position = if (position - 1 < 0) listSongs.size - 1 else position - 1
+            position = if (shuffleBoolean) {
+                Random.nextInt((listSongs.size - 1) + 1)
+            } else {
+                if (position - 1 < 0) listSongs.size - 1 else position - 1
+            }
+            Log.e("pos", position.toString())
             setAudio(position)
             mediaPlayer.setOnCompletionListener(this)
         } else {
             mediaPlayer.stop()
             mediaPlayer.release()
 
-            position = if (position - 1 < 0) listSongs.size - 1 else position - 1
+            position = if (shuffleBoolean) {
+                Random.nextInt((listSongs.size - 1) + 1)
+            } else {
+                if (position - 1 < 0) listSongs.size - 1 else position - 1
+            }
+
             setAudio(position)
             btPlay.setImageResource(R.drawable.ic_play_24)
             mediaPlayer.pause()
@@ -240,14 +253,26 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             mediaPlayer.stop()
             mediaPlayer.release()
 
-            position = if (position + 1 > listSongs.size - 1) 0 else position + 1
+            position = if (shuffleBoolean) {
+                Random.nextInt((listSongs.size - 1) + 1)
+            } else {
+                if (position + 1 > listSongs.size - 1) 0 else position + 1
+            }
+
+            Log.e("pos", position.toString())
+
             setAudio(position)
             mediaPlayer.setOnCompletionListener(this)
         } else {
             mediaPlayer.stop()
             mediaPlayer.release()
 
-            position = if (position + 1 > listSongs.size - 1) 0 else position + 1
+            position = if (shuffleBoolean) {
+                Random.nextInt((listSongs.size - 1) + 1)
+            } else {
+                if (position + 1 > listSongs.size - 1) 0 else position + 1
+            }
+
             setAudio(position)
             btPlay.setImageResource(R.drawable.ic_play_24)
             mediaPlayer.pause()
@@ -311,10 +336,16 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         if (check == 1) {
             updateViews(listSongs[position].id)
         }
-        nextBtnClicked()
-        btPlay.setImageResource(R.drawable.ic_baseline_pause_24)
-        mediaPlayer.start()
-        mediaPlayer.setOnCompletionListener(this)
+        if (repeatBoolean) {
+            mediaPlayer.seekTo(0)
+            mediaPlayer.start()
+        } else {
+            nextBtnClicked()
+            btPlay.setImageResource(R.drawable.ic_baseline_pause_24)
+            mediaPlayer.start()
+            mediaPlayer.setOnCompletionListener(this)
+        }
+
     }
 
 

@@ -28,7 +28,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:padding">@dimen/padding_medium</item>
+        <item name="android:padding">@dimen/padding_small</item>
         <item name="android:layout_margin">@dimen/margin_medium</item>
         <item name="android:drawableLeft">@drawable/ic_baseline_chevron_left_24</item>
         <item name="android:text">@string/back</item>
@@ -36,5 +36,4 @@
         <item name="android:textSize">@dimen/text_size_x_small</item>
     </style>
 
-    <string name="back">Back</string>
 </resources>

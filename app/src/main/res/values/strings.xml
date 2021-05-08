@@ -9,16 +9,14 @@
     <string name="play_button">Play Button</string>
     <string name="repeat_button">Repeat Button</string>
     <string name="shuffle_button">Shuffle Button</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="track_album_art">Album</string>
     <string name="current_song_name">Current Song Name</string>
     <string name="current_artist_name">Current Artist Name</string>
     <string name="now_playing">Now Playing</string>
     <string name="_1_39">1.39</string>
     <string name="_4_39">4.39</string>
-    <string name="todo">TODO</string>
     <string name="heart">Heart</string>
     <string name="more">More option</string>
     <string name="searchKey">Nhập tên bài hát</string>
+    <string name="back">Quay lại</string>
 </resources>

@@ -112,26 +112,27 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageButton
+        android:id="@+id/btBack"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="30dp"
-        android:src="@drawable/ic_baseline_chevron_left_24"
+        android:layout_marginStart="@dimen/margin_x_large"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintBottom_toBottomOf="@id/tvNow"
+        android:contentDescription="@string/back"
+        android:src="@drawable/ic_baseline_chevron_left_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvNow"
-        android:contentDescription="@string/back" />
+        app:layout_constraintBottom_toBottomOf="@id/tvNow"
+        app:layout_constraintTop_toTopOf="@id/tvNow" />
 
     <ImageButton
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="24dp"
-        android:src="@drawable/ic_baseline_more_vert_24"
+        android:layout_marginEnd="@dimen/margin_x_large"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/more"
+        android:src="@drawable/ic_baseline_more_vert_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNow"
-        app:layout_constraintTop_toTopOf="@id/tvNow"
-        android:contentDescription="@string/more" />
+        app:layout_constraintBottom_toBottomOf="@id/tvNow"
+        app:layout_constraintTop_toTopOf="@id/tvNow" />
 
 <!--    <com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer-->
 <!--        android:id="@+id/blast"-->
@@ -201,13 +202,13 @@
 
         <ImageButton
             android:id="@+id/btShuffle"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginStart="@dimen/margin_x_large"
             android:background="@null"
             android:contentDescription="@string/shuffle_button"
-            android:scaleType="fitStart"
-            android:src="@drawable/sf"
+            android:scaleType="matrix"
+            android:src="@drawable/ic_shuffle"
             app:layout_constraintBottom_toBottomOf="@+id/btHeart"
             app:layout_constraintEnd_toStartOf="@+id/btHeart"
             app:layout_constraintStart_toStartOf="parent"
@@ -222,20 +223,20 @@
             android:contentDescription="@string/heart"
             android:scaleType="center"
             android:src="@drawable/ic_heart"
-            android:tint="#FF77FF"
+            android:tint="#FF0000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
             android:id="@+id/btRepeat"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginEnd="@dimen/margin_x_large"
             android:background="@null"
             android:contentDescription="@string/repeat_button"
-            android:scaleType="centerInside"
-            android:src="@drawable/rp"
+            android:scaleType="matrix"
+            android:src="@drawable/ic_repeat"
             app:layout_constraintBottom_toBottomOf="@+id/btHeart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btHeart"
