@@ -91,7 +91,7 @@ class LibraryFragment : Fragment() {
         }
     }
 
-    fun getAllAudio(context: Context): ArrayList<Music> {
+    private fun getAllAudio(context: Context): ArrayList<Music> {
         val tempAudioList: ArrayList<Music> = ArrayList()
 
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI

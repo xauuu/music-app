@@ -1,10 +1,13 @@
-package com.example.finalproject.data
+package com.example.finalproject.api
 
+import com.example.finalproject.data.Album
+import com.example.finalproject.data.Music
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
+// Định nghĩa các phương thức gửi lên sv
 interface ApiClient {
 
 //    Lấy tất cả bài hát

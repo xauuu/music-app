@@ -6,11 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.SearchView
 import com.example.finalproject.R
 import com.example.finalproject.adapter.SongAdapter
-import com.example.finalproject.data.ApiAdapter
+import com.example.finalproject.api.ApiAdapter
 import com.example.finalproject.data.Music
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

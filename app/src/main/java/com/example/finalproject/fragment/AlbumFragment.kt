@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
 import com.example.finalproject.adapter.AlbumAdapter
-import com.example.finalproject.adapter.SongAdapter
 import com.example.finalproject.data.Album
-import com.example.finalproject.data.ApiAdapter
+import com.example.finalproject.api.ApiAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

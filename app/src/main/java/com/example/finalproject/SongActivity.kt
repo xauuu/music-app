@@ -1,6 +1,7 @@
 package com.example.finalproject
 
 import android.annotation.SuppressLint
+import android.graphics.PorterDuff.Mode.*
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.media.MediaPlayer.OnCompletionListener
@@ -14,9 +15,11 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.*
 import com.bumptech.glide.Glide
-import com.example.finalproject.data.ApiAdapter
+import com.example.finalproject.api.ApiAdapter
 import com.example.finalproject.data.Music
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.coroutines.CoroutineScope
@@ -37,9 +40,13 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
     lateinit var btNext: ImageButton
     lateinit var btRepeat: ImageButton
     lateinit var btShuffle: ImageButton
+    lateinit var btBack: ImageButton
     lateinit var seekBar: SeekBar
     lateinit var tvCurrentTime: TextView
     lateinit var tvTotalTime: TextView
+
+    private var repeatBoolean: Boolean = false
+    private var shuffleBoolean: Boolean = false
 
     private var position = -1
     private var check = -1
@@ -92,6 +99,33 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             }
         }).start()
 
+        btShuffle.setOnClickListener {
+            if (shuffleBoolean) {
+                shuffleBoolean = false
+                btShuffle.setColorFilter(getColor(applicationContext, R.color.colorPrimaryText), SRC_IN)
+            } else {
+                shuffleBoolean = true
+                btShuffle.setColorFilter(getColor(applicationContext, R.color.colorAccent), SRC_IN)
+                Toast.makeText(this, "Ngẫu nhiên", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        btRepeat.setOnClickListener {
+            if (repeatBoolean) {
+                repeatBoolean = false
+                btRepeat.setImageResource(R.drawable.ic_repeat)
+                Toast.makeText(this, "Huỷ lặp bài hát hiện tại", Toast.LENGTH_SHORT).show()
+            } else {
+                repeatBoolean = true
+                btRepeat.setImageResource(R.drawable.ic_repeat1)
+                Toast.makeText(this, "Lặp bài hát hiện tại", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        btBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun initView() {
@@ -103,6 +137,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         btPrev = findViewById(R.id.btPrev)
         btRepeat = findViewById(R.id.btRepeat)
         btShuffle = findViewById(R.id.btShuffle)
+        btBack = findViewById(R.id.btBack)
         seekBar = findViewById(R.id.playerSeekBar)
         tvCurrentTime = findViewById(R.id.tvCurrentTime)
         tvTotalTime = findViewById(R.id.tvTotalTime)
@@ -273,10 +308,14 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        updateViews(listSongs[position].id)
+        if (check == 1) {
+            updateViews(listSongs[position].id)
+        }
         nextBtnClicked()
         btPlay.setImageResource(R.drawable.ic_baseline_pause_24)
         mediaPlayer.start()
         mediaPlayer.setOnCompletionListener(this)
     }
+
+
 }

@@ -1,11 +1,11 @@
-package com.example.finalproject.data
+package com.example.finalproject.api
 
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+// Khởi tạo Retrofit
 object ApiAdapter {
-    private const val BASE_URL = "http://192.168.123.162:8000"
+    private const val BASE_URL = "http://172.20.10.5:8000"
     val makeRetrofitService: ApiClient
         get() {
             return Retrofit.Builder()

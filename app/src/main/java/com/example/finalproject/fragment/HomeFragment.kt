@@ -11,12 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
 import com.example.finalproject.adapter.SongAdapter
-import com.example.finalproject.data.ApiAdapter
+import com.example.finalproject.api.ApiAdapter
 import com.example.finalproject.data.Music
 import kotlinx.coroutines.*
 
 class HomeFragment : Fragment() {
-    lateinit var v: View
     private lateinit var recyclerView: RecyclerView
     lateinit var progressBar: ProgressBar
     lateinit var songs: ArrayList<Music>
@@ -26,13 +25,13 @@ class HomeFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
         activity?.title = "Trang chủ"
 
-        progressBar = v.findViewById(R.id.progressBar)
+        progressBar = view.findViewById(R.id.progressBar)
 
-        recyclerView = v.findViewById(R.id.rvList)
-        recyclerView.layoutManager = LinearLayoutManager(v.context)
+        recyclerView = view.findViewById(R.id.rvList)
+        recyclerView.layoutManager = LinearLayoutManager(view.context)
 
 
         val service = ApiAdapter.makeRetrofitService
@@ -52,10 +51,9 @@ class HomeFragment : Fragment() {
             } catch (e: Exception) {
                 e.message?.run { Log.e("NETWORK", this) }
             }
-
         }
 
-        return v
+        return view
     }
 }
 
