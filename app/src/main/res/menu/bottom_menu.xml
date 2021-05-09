@@ -7,20 +7,28 @@
         android:enabled="true"
         android:icon="@drawable/ic_home"
         android:title="@string/home"
-        app:cnb_iconColor="@color/home"/>
+        app:cnb_textColor="#fff"
+        app:cnb_iconColor="#fff"
+        app:cnb_backgroundColor="#ff875b"/>
     <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search"
         android:title="@string/search"
-        app:cnb_iconColor="@color/search" />
+        app:cnb_textColor="#fff"
+        app:cnb_iconColor="#fff"
+        app:cnb_backgroundColor="#ff875b" />
     <item
         android:id="@+id/library"
         android:icon="@drawable/ic_library"
         android:title="@string/library"
-        app:cnb_iconColor="@color/library" />
+        app:cnb_textColor="#fff"
+        app:cnb_iconColor="#fff"
+        app:cnb_backgroundColor="#ff875b" />
     <item
         android:id="@+id/setting"
         android:icon="@drawable/ic_setting"
         android:title="@string/setting"
-        app:cnb_iconColor="@color/setting" />
+        app:cnb_textColor="#fff"
+        app:cnb_iconColor="#fff"
+        app:cnb_backgroundColor="#ff875b" />
 </menu>
