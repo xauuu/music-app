@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     lateinit var progressBar: ProgressBar
     lateinit var adapter: SongAdapter
     lateinit var songs: ArrayList<Music>
+    lateinit var constraintLayout: ConstraintLayout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +48,8 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         searchView = view.findViewById(R.id.searchV)
         searchView.setOnQueryTextListener(this)
 
+        constraintLayout = view.findViewById(R.id.no_result_layout)
+
         return view
     }
 
@@ -55,6 +59,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         val service = ApiAdapter.makeRetrofitService
         val call = service.search(query.toString())
         progressBar.visibility = View.VISIBLE
+        constraintLayout.visibility = View.GONE
         call.enqueue(object : Callback<ArrayList<Music>> {
             override fun onResponse(
                 call: Call<ArrayList<Music>>,
@@ -69,7 +74,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
                     recyclerView.adapter = adapter
                 } else {
                     progressBar.visibility = View.GONE
-                    Log.e("SEARCH", "No tim thay")
+                    constraintLayout.visibility = View.VISIBLE
                 }
             }
 

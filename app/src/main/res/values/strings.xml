@@ -19,4 +19,6 @@
     <string name="more">More option</string>
     <string name="searchKey">Nhập tên bài hát</string>
     <string name="back">Quay lại</string>
+    <string name="no_resutl">Không có kết quả nào được tìm thấy</string>
+    <string name="search_try">Kiểm tra chính tả hoặc thử một tìm kiếm khác</string>
 </resources>
