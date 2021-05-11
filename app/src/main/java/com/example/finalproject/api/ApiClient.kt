@@ -2,6 +2,7 @@ package com.example.finalproject.api
 
 import com.example.finalproject.data.Album
 import com.example.finalproject.data.Music
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -25,5 +26,8 @@ interface ApiClient {
 //    Cập nhật lượt nghe bài hát
     @PUT("/api/update-view/{id}")
     suspend fun updateSong(@Path("id") id: Int)
+
+    @GET("api/search/{keyword}")
+    fun search(@Path("keyword") keyword: String): Call<ArrayList<Music>>
 
 }

@@ -47,7 +47,7 @@ class LibraryFragment : Fragment() {
     }
 
     private fun loadSong() {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Default).launch {
             progressBar.visibility = View.VISIBLE
             withContext(context = Dispatchers.Main) {
                 musicFiles = getAllAudio(requireContext())
