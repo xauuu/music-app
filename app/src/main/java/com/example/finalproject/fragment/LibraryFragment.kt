@@ -35,7 +35,6 @@ class LibraryFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         view1 = inflater.inflate(R.layout.fragment_library, container, false)
-        activity?.title = "Thư viện"
 
         progressBar = view1.findViewById(R.id.progressBar)
         recyclerView = view1.findViewById(R.id.rvListLb)

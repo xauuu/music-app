@@ -6,6 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shadow"
+    android:minHeight="?attr/actionBarSize"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:title="Thư viện"
+    app:titleTextAppearance="@style/ToolbarTitle" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -20,12 +31,12 @@
         android:id="@+id/rvListLb"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:scrollbars="vertical">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
     </androidx.recyclerview.widget.RecyclerView>
 

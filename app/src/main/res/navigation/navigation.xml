@@ -34,17 +34,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.finalproject.fragment.HomeFragment"
-        android:label="HomeFragment" >
-        <action
-            android:id="@+id/action_homeFragment_to_albumFragment"
-            app:destination="@id/albumFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_libraryFragment"
-            app:destination="@id/libraryFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-    </fragment>
+        android:label="HomeFragment" />
     <activity
         android:id="@+id/albumSongsActivity"
         android:name="com.example.finalproject.AlbumSongsActivity"

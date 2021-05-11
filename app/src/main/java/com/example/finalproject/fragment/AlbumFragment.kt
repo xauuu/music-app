@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
 import com.example.finalproject.adapter.AlbumAdapter
@@ -29,11 +30,10 @@ class AlbumFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_album, container, false)
-        activity?.title = "Album"
         recyclerView = view.findViewById(R.id.rvAlbum)
         progressBar = view.findViewById(R.id.progressBar)
         recyclerView.layoutManager = GridLayoutManager(context, 2)
-
+//        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         val service = ApiAdapter.makeRetrofitService
         CoroutineScope(Dispatchers.IO).launch {
             progressBar.visibility = View.VISIBLE

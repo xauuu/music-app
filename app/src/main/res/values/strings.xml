@@ -21,4 +21,17 @@
     <string name="back">Quay lại</string>
     <string name="no_resutl">Không có kết quả nào được tìm thấy</string>
     <string name="search_try">Kiểm tra chính tả hoặc thử một tìm kiếm khác</string>
+    <string name="Albums">Albums</string>
+    <string name="navigation_icon">Navigation icon</string>
+    <string name="BXH">Bảng xếp hạng</string>
+    <string name="login">Đăng nhập</string>
+    <string name="username">Tên đăng nhập</string>
+    <string name="password">Mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="no_acc">Bạn chưa có tài khoản?</string>
+    <string name="sing_up">Đăng ký ngay</string>
+    <string name="facebook">Facebook</string>
+    <string name="linkedin">Linkedin</string>
+    <string name="twitter">Twitter</string>
+    <string name="white_bg">White BG</string>
 </resources>

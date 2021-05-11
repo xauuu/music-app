@@ -8,6 +8,8 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.example.finalproject.fragment.AlbumFragment
 import com.example.finalproject.fragment.HomeFragment
@@ -24,39 +26,42 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fragment = HomeFragment()
-        loadFragment(fragment)
-
         val navigation: ChipNavigationBar = findViewById(R.id.bottom_navigation)
         navigation.setItemSelected(R.id.home, true)
         navigation.setOnItemSelectedListener { item ->
-
             when (item) {
                 R.id.home -> {
-                    fragment = HomeFragment()
-                    loadFragment(fragment)
+                    Navigation.findNavController(
+                        this@MainActivity, R.id.nav_host_fragment).navigate(R.id.homeFragment, null, getNavOptions())
                 }
                 R.id.search -> {
-                    fragment = SearchFragment()
-                    loadFragment(fragment)
+                    Navigation.findNavController(
+                        this@MainActivity, R.id.nav_host_fragment).navigate(R.id.searchFragment, null, getNavOptions())
                 }
                 R.id.library -> {
-                    fragment = LibraryFragment()
-                    loadFragment(fragment)
+                    Navigation.findNavController(
+                        this@MainActivity, R.id.nav_host_fragment).navigate(R.id.libraryFragment, null, getNavOptions())
                 }
                 R.id.setting -> {
-                    fragment = AlbumFragment()
-                    loadFragment(fragment)
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }
     }
 
-    private fun loadFragment(fragment: Fragment) {
-        // load fragment
-        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame_container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+
+//    private fun loadFragment(fragment: Fragment) {
+//         load fragment
+//        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+//        transaction.replace(R.id.frame_container, fragment)
+//        transaction.addToBackStack(null)
+//        transaction.commit()
+//    }
+    private fun getNavOptions(): NavOptions? {
+        return NavOptions.Builder()
+            .setEnterAnim(R.anim.default_enter_anim)
+            .setExitAnim(R.anim.default_exit_anim)
+            .build()
     }
 }

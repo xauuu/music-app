@@ -38,7 +38,6 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_search, container, false)
-        activity?.title = "Tìm kiếm"
 
         recyclerView = view.findViewById(R.id.listSearch)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
