@@ -333,7 +333,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        if (check == 1) {
+        if (check == 0) {
             updateViews(listSongs[position].id)
         }
         if (repeatBoolean) {

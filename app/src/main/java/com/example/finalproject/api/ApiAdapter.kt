@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 // Khởi tạo Retrofit
 object ApiAdapter {
-    private const val BASE_URL = "http://172.20.10.5:8000"
+    private const val BASE_URL = "http://xmusicg.herokuapp.com/"
     val makeRetrofitService: ApiClient
         get() {
             return Retrofit.Builder()

@@ -21,14 +21,14 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".AlbumSongsActivity"
-            android:theme="@style/FullScreen"></activity>
+            android:theme="@style/FullScreen" />
         <activity
             android:name=".SongActivity"
-            android:theme="@style/FullScreen"></activity>
+            android:theme="@style/FullScreen" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
