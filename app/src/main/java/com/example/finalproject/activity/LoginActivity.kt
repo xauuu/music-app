@@ -51,6 +51,10 @@ class LoginActivity : AppCompatActivity() {
         btLogin = findViewById(R.id.btLogin)
         register = findViewById(R.id.register)
 
+        register.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, WebActivity::class.java))
+        }
+
         dialog = ProgressDialog(this)
         dialog.setCancelable(false)
 

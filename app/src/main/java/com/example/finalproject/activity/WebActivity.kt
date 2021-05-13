@@ -1,0 +1,57 @@
+package com.example.finalproject.activity
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.ProgressBar
+import com.example.finalproject.R
+
+class WebActivity : AppCompatActivity() {
+
+    val PAGE_URL = "http://xmusicg.herokuapp.com/register"
+    val MAX_PROGRESS = 100
+    private lateinit var webView: WebView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var pageUrl: String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_web)
+
+        webView = findViewById(R.id.webView)
+        progressBar = findViewById(R.id.progressBar)
+
+        webView.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView, weburl: String) {
+                Log.e("abc", "đã loaas")
+            }
+        }
+
+        webView.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView, newProgress: Int) {
+                progressBar.progress = newProgress
+                if (newProgress < MAX_PROGRESS && progressBar.visibility == ProgressBar.GONE) {
+                    progressBar.visibility = ProgressBar.VISIBLE
+                }
+                if (newProgress == MAX_PROGRESS) {
+                    progressBar.visibility = ProgressBar.GONE
+                }
+            }
+        }
+        webView.loadUrl(PAGE_URL)
+
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
+            webView.goBack()
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+}

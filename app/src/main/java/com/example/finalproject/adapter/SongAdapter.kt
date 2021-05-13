@@ -19,8 +19,6 @@ class SongAdapter(
         private val context: Context
 ): RecyclerView.Adapter<SongAdapter.ViewHolder>() {
 
-    var songsList = ArrayList<Music>()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.song_item, parent, false)
