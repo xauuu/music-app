@@ -1,15 +1,19 @@
 package com.example.finalproject.api
 
-import com.example.finalproject.data.Album
-import com.example.finalproject.data.Music
+import com.example.finalproject.model.Album
+import com.example.finalproject.model.CheckUser
+import com.example.finalproject.model.Music
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.PUT
-import retrofit2.http.Path
+import retrofit2.http.*
 
 // Định nghĩa các phương thức gửi lên sv
 interface ApiClient {
+
+//    Đăng nhâp
+    @FormUrlEncoded
+    @POST("api/login")
+    fun login(@Field("email") email: String, @Field("password") password: String): Call<CheckUser>
 
 //    Lấy tất cả bài hát
     @GET("/api/music")

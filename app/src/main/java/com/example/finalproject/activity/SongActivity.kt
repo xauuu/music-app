@@ -1,4 +1,4 @@
-package com.example.finalproject
+package com.example.finalproject.activity
 
 import android.annotation.SuppressLint
 import android.graphics.PorterDuff.Mode.*
@@ -19,8 +19,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.*
 import com.bumptech.glide.Glide
+import com.example.finalproject.R
 import com.example.finalproject.api.ApiAdapter
-import com.example.finalproject.data.Music
+import com.example.finalproject.model.Music
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

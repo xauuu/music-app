@@ -20,16 +20,16 @@
         android:theme="@style/Theme.FinalProject"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:theme="@style/FullScreen" />
         <activity
-            android:name=".AlbumSongsActivity"
+            android:name=".activity.AlbumSongsActivity"
             android:theme="@style/FullScreen" />
         <activity
-            android:name=".SongActivity"
+            android:name=".activity.SongActivity"
             android:theme="@style/FullScreen" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

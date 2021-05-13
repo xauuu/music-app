@@ -16,7 +16,7 @@
     </fragment>
     <activity
         android:id="@+id/songActivity"
-        android:name="com.example.finalproject.SongActivity"
+        android:name="com.example.finalproject.activity.SongActivity"
         android:label="activity_song2"
         tools:layout="@layout/activity_song2" />
     <fragment
@@ -37,6 +37,11 @@
         android:label="HomeFragment" />
     <activity
         android:id="@+id/albumSongsActivity"
-        android:name="com.example.finalproject.AlbumSongsActivity"
+        android:name="com.example.finalproject.activity.AlbumSongsActivity"
         android:label="AlbumSongsActivity" />
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.example.finalproject.fragment.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" />
 </navigation>

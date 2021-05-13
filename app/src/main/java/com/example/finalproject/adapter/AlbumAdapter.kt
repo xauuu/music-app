@@ -9,9 +9,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.finalproject.AlbumSongsActivity
+import com.example.finalproject.activity.AlbumSongsActivity
 import com.example.finalproject.R
-import com.example.finalproject.data.Album
+import com.example.finalproject.model.Album
 
 class AlbumAdapter(
     private val list_album: ArrayList<Album>,

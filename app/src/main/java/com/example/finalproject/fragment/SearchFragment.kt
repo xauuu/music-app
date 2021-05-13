@@ -1,7 +1,5 @@
 package com.example.finalproject.fragment
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,17 +9,12 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
 import com.example.finalproject.adapter.SongAdapter
 import com.example.finalproject.api.ApiAdapter
-import com.example.finalproject.data.Music
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.finalproject.model.Music
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

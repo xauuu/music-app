@@ -15,12 +15,12 @@ import com.example.finalproject.R
 import com.example.finalproject.adapter.AlbumAdapter
 import com.example.finalproject.adapter.SongAdapter
 import com.example.finalproject.api.ApiAdapter
-import com.example.finalproject.data.Album
-import com.example.finalproject.data.Music
+import com.example.finalproject.model.Album
+import com.example.finalproject.model.Music
 import kotlinx.coroutines.*
 
 class HomeFragment : Fragment() {
-    private lateinit var bxhRV: RecyclerView
+    lateinit var bxhRV: RecyclerView
     lateinit var albumsRV: RecyclerView
     lateinit var progressBar: ProgressBar
     lateinit var songs: ArrayList<Music>
@@ -44,6 +44,7 @@ class HomeFragment : Fragment() {
             LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)
 
         val service = ApiAdapter.makeRetrofitService
+
         CoroutineScope(Dispatchers.IO).launch {
             progressBar.visibility = View.VISIBLE
             try {

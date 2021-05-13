@@ -1,6 +1,5 @@
-package com.example.finalproject.data
+package com.example.finalproject.model
 
-import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 

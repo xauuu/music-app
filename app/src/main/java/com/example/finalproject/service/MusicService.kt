@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
-import com.example.finalproject.data.Music
+import com.example.finalproject.model.Music
 
 class MusicService: Service() {
 

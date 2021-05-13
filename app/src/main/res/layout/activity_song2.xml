@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".SongActivity">
+    tools:context=".activity.SongActivity">
 
     <View
         android:id="@+id/viewSupportForBg"
@@ -151,7 +151,7 @@
         android:id="@+id/layoutPlayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/player_bg"
+        android:background="@drawable/bg_player"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageButton
@@ -159,7 +159,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="@dimen/margin_xx_large"
-            android:background="@drawable/play_button_bg"
+            android:background="@drawable/bg_play_button"
             android:contentDescription="@string/play_button"
             android:padding="4dp"
             android:scaleType="center"

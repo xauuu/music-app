@@ -1,4 +1,4 @@
-package com.example.finalproject
+package com.example.finalproject.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,9 +8,10 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.finalproject.R
 import com.example.finalproject.adapter.SongAdapter
 import com.example.finalproject.api.ApiAdapter
-import com.example.finalproject.data.Music
+import com.example.finalproject.model.Music
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

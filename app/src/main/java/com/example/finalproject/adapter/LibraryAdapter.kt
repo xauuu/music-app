@@ -10,8 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.finalproject.R
-import com.example.finalproject.SongActivity
-import com.example.finalproject.data.Music
+import com.example.finalproject.activity.SongActivity
+import com.example.finalproject.model.Music
 import com.makeramen.roundedimageview.RoundedImageView
 
 class LibraryAdapter(

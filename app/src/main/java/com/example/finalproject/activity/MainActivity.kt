@@ -1,20 +1,13 @@
-package com.example.finalproject
+package com.example.finalproject.activity
 
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import com.example.finalproject.fragment.AlbumFragment
-import com.example.finalproject.fragment.HomeFragment
-import com.example.finalproject.fragment.LibraryFragment
-import com.example.finalproject.fragment.SearchFragment
+import com.example.finalproject.R
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import okhttp3.*
 
@@ -32,19 +25,23 @@ class MainActivity : AppCompatActivity() {
             when (item) {
                 R.id.home -> {
                     Navigation.findNavController(
-                        this@MainActivity, R.id.nav_host_fragment).navigate(R.id.homeFragment, null, getNavOptions())
+                        this@MainActivity, R.id.nav_host_fragment
+                    ).navigate(R.id.homeFragment, null, getNavOptions())
                 }
                 R.id.search -> {
                     Navigation.findNavController(
-                        this@MainActivity, R.id.nav_host_fragment).navigate(R.id.searchFragment, null, getNavOptions())
+                        this@MainActivity, R.id.nav_host_fragment
+                    ).navigate(R.id.searchFragment, null, getNavOptions())
                 }
                 R.id.library -> {
                     Navigation.findNavController(
-                        this@MainActivity, R.id.nav_host_fragment).navigate(R.id.libraryFragment, null, getNavOptions())
+                        this@MainActivity, R.id.nav_host_fragment
+                    ).navigate(R.id.libraryFragment, null, getNavOptions())
                 }
                 R.id.setting -> {
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
+                    Navigation.findNavController(
+                        this@MainActivity, R.id.nav_host_fragment
+                    ).navigate(R.id.userFragment, null, getNavOptions())
                 }
             }
         }

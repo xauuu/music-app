@@ -1,4 +1,4 @@
-package com.example.finalproject.data
+package com.example.finalproject.model
 
 data class Album(
     val id: Int,
