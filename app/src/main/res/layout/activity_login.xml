@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/home"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,18 +53,25 @@
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="13.3sp" />
 
-                <EditText
-                    android:id="@+id/username"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtLayoutEmailSignIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:autofillHints=""
-                    android:background="@android:color/transparent"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:inputType="textPersonName"
-                    android:maxLines="1"
-                    android:textCursorDrawable="@drawable/grey_cursor_color"
-                    android:textSize="15sp" />
+                    android:layout_marginEnd="44.3dp">
+
+                    <EditText
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=""
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/montserrat"
+                        android:inputType="textPersonName|textEmailSubject"
+                        android:maxLines="1"
+                        android:textCursorDrawable="@drawable/grey_cursor_color"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <View
                     android:layout_width="wrap_content"
@@ -82,23 +89,28 @@
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="13.3sp" />
 
-                <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
-                    android:id="@+id/password"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtLayoutPasswordSignIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="11.7dp"
-                    android:background="@android:color/transparent"
-                    android:inputType="textPassword"
-                    android:maxLength="10"
-                    android:maxLines="1"
-                    android:paddingEnd="44.3dp"
-                    android:textColor="#000000"
-                    android:textColorHint="#000000"
-                    android:textCursorDrawable="@drawable/grey_cursor_color"
-                    android:textSize="15sp"
-                    app:drawable_hide="@drawable/hide1"
-                    app:drawable_show="@drawable/show"
-                    app:tint_color="#d5d5d5" />
+                    android:layout_marginEnd="44.3dp">
+
+                    <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:inputType="textPassword"
+                        android:maxLength="10"
+                        android:maxLines="1"
+                        android:textColor="#000000"
+                        android:textColorHint="#000000"
+                        android:textCursorDrawable="@drawable/grey_cursor_color"
+                        android:textSize="15sp"
+                        app:drawable_hide="@drawable/hide1"
+                        app:drawable_show="@drawable/show"
+                        app:tint_color="#d5d5d5" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <View
                     android:layout_width="wrap_content"
@@ -164,8 +176,8 @@
 
                     <ImageButton
                         android:id="@+id/btLogin"
-                        android:layout_width="18.7dp"
-                        android:layout_height="15.3dp"
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/login"
                         android:scaleType="centerInside"
@@ -198,6 +210,7 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
