@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
 import com.example.finalproject.adapter.LibraryAdapter
 import com.example.finalproject.model.Music
+import com.github.ybq.android.spinkit.style.Wave
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,38 +38,32 @@ class LibraryFragment : Fragment() {
         view1 = inflater.inflate(R.layout.fragment_library, container, false)
 
         progressBar = view1.findViewById(R.id.progressBar)
+        val wave = Wave()
+        wave.color = resources.getColor(R.color.colorAccent)
+        progressBar.indeterminateDrawable = wave
         recyclerView = view1.findViewById(R.id.rvListLb)
         recyclerView.layoutManager = LinearLayoutManager(view1.context)
         if (checkPermission()) {
             loadSong()
+            progressBar.visibility = View.GONE
         }
         return view1
     }
 
     private fun loadSong() {
-        CoroutineScope(Dispatchers.Default).launch {
-            progressBar.visibility = View.VISIBLE
+        CoroutineScope(Dispatchers.IO).launch {
             withContext(context = Dispatchers.Main) {
                 musicFiles = getAllAudio(requireContext())
                 recyclerView.adapter = LibraryAdapter(musicFiles, requireContext())
-                progressBar.visibility = View.GONE
             }
         }
 
     }
 
     private fun checkPermission(): Boolean {
-        val READ_EXTERNAL_PERMISSION = ContextCompat.checkSelfPermission(requireContext(), READ_EXTERNAL_STORAGE)
-        val RECORD_AUDIO = ContextCompat.checkSelfPermission(requireContext(), RECORD_AUDIO)
-        val listPermissionsNeeded: ArrayList<String> = ArrayList()
-        if (READ_EXTERNAL_PERMISSION != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(READ_EXTERNAL_STORAGE)
-        }
-        if (RECORD_AUDIO != PackageManager.PERMISSION_GRANTED){
-            listPermissionsNeeded.add(Manifest.permission.RECORD_AUDIO)
-        }
-        if (listPermissionsNeeded.isNotEmpty()) {
-            requestPermissions(listPermissionsNeeded.toTypedArray(), REQUEST_CODE);
+        val permission = ContextCompat.checkSelfPermission(requireContext(), READ_EXTERNAL_STORAGE)
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(READ_EXTERNAL_STORAGE), REQUEST_CODE)
             return false
         }
         return true
@@ -78,13 +73,10 @@ class LibraryFragment : Fragment() {
 
         when (requestCode) {
             REQUEST_CODE -> {
-                for (i in permissions.indices) {
-                    if (grantResults.isNotEmpty() && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                        loadSong()
-                    } else {
-                        requestPermissions(arrayOf(permissions[i]), REQUEST_CODE)
-                    }
-                    return
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(arrayOf(READ_EXTERNAL_STORAGE), REQUEST_CODE)
+                } else {
+                   loadSong()
                 }
             }
         }

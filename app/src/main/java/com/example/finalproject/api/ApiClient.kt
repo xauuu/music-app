@@ -17,19 +17,19 @@ interface ApiClient {
 
 //    Lấy tất cả bài hát
     @GET("/api/music")
-    suspend fun getSongs(): Response<ArrayList<Music>>
+    fun getSongs(): Call<ArrayList<Music>>
 
 //    Lấy tất cả album
     @GET("/api/album")
-    suspend fun getAlbums(): Response<ArrayList<Album>>
+    fun getAlbums(): Call<ArrayList<Album>>
 
 //    Lấy tất cả bài hát thuộc album
     @GET("/api/album/{id}")
-    suspend fun getSongInAlbum(@Path("id") id: Int): Response<ArrayList<Music>>
+    fun getSongInAlbum(@Path("id") id: Int): Call<ArrayList<Music>>
 
 //    Cập nhật lượt nghe bài hát
     @PUT("/api/update-view/{id}")
-    suspend fun updateSong(@Path("id") id: Int)
+    fun updateSong(@Path("id") id: Int)
 
     @GET("api/search/{keyword}")
     fun search(@Path("keyword") keyword: String): Call<ArrayList<Music>>

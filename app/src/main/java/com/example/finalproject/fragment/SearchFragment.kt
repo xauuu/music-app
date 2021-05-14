@@ -15,6 +15,7 @@ import com.example.finalproject.R
 import com.example.finalproject.adapter.SongAdapter
 import com.example.finalproject.api.ApiAdapter
 import com.example.finalproject.model.Music
+import com.github.ybq.android.spinkit.style.Wave
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,6 +37,9 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
         progressBar = view.findViewById(R.id.progressBar)
+        val wave = Wave()
+        wave.color = resources.getColor(R.color.colorAccent)
+        progressBar.indeterminateDrawable = wave
 
         searchView = view.findViewById(R.id.searchV)
         searchView.setOnQueryTextListener(this)

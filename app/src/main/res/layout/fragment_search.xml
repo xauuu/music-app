@@ -24,7 +24,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/listSearch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/listSearch" />
+        app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
     <SearchView
         android:id="@+id/searchV"

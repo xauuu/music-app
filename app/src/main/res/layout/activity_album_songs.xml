@@ -125,7 +125,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_anchor="@id/albumSongsRV"
-        app:layout_anchorGravity="center"
-        android:visibility="visible" />
+        app:layout_anchorGravity="center|top" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

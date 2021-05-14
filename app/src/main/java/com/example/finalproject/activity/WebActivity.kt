@@ -12,11 +12,9 @@ import com.example.finalproject.R
 
 class WebActivity : AppCompatActivity() {
 
-    val PAGE_URL = "http://xmusicg.herokuapp.com/register"
-    val MAX_PROGRESS = 100
+    private val url = "http://xmusicg.herokuapp.com/register"
     private lateinit var webView: WebView
     private lateinit var progressBar: ProgressBar
-    private lateinit var pageUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,15 +32,15 @@ class WebActivity : AppCompatActivity() {
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 progressBar.progress = newProgress
-                if (newProgress < MAX_PROGRESS && progressBar.visibility == ProgressBar.GONE) {
+                if (newProgress < 100 && progressBar.visibility == ProgressBar.GONE) {
                     progressBar.visibility = ProgressBar.VISIBLE
                 }
-                if (newProgress == MAX_PROGRESS) {
+                if (newProgress == 100) {
                     progressBar.visibility = ProgressBar.GONE
                 }
             }
         }
-        webView.loadUrl(PAGE_URL)
+        webView.loadUrl(url)
 
     }
 

@@ -78,4 +78,6 @@ dependencies {
 
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.github.scottyab:showhidepasswordedittext:0.8'
+
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 }
