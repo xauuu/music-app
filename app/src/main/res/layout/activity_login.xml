@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:orientation="horizontal"
-                android:paddingStart="35dp">
+                android:paddingStart="@dimen/margin_xx_large">
 
                 <ImageView
                     android:layout_width="48dp"
@@ -166,16 +166,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
-                    android:gravity="center"
+                    android:gravity="center|end"
                     android:orientation="vertical">
 
                     <ImageButton
                         android:id="@+id/btLogin"
                         android:layout_width="40dp"
-                        android:layout_height="20dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="41.3dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/login"
-                        android:scaleType="centerInside"
+                        android:padding="5dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/black_arrow" />
                 </LinearLayout>
             </LinearLayout>
@@ -210,7 +212,7 @@
                 android:layout_marginStart="5dp"
                 android:gravity="center_horizontal"
                 android:text="@string/sing_up"
-                android:textColor="@color/search"
+                android:textColor="@color/primary"
                 android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>

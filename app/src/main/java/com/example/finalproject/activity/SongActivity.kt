@@ -26,6 +26,9 @@ import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.random.Random
 
 class SongActivity : AppCompatActivity(), OnCompletionListener {
@@ -157,7 +160,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
     }
 
     private fun setAudio(pos: Int) {
-        btPlay.setImageResource(R.drawable.ic_baseline_pause_24)
+        btPlay.setImageResource(R.drawable.ic_icons8_pause)
 
         tvTitle.ellipsize = TextUtils.TruncateAt.MARQUEE
         tvTitle.isSelected = true
@@ -189,10 +192,16 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
 
     private fun updateViews(id: Int) {
         val service = ApiAdapter.makeRetrofitService
-        CoroutineScope(Dispatchers.IO).launch {
-            service.updateSong(id)
-            Log.e("Updated", "Đã cập nhật lươt nghe bài hát có id = ${id.toString()}")
-        }
+        val call = service.updateSong(id)
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                Log.d("UPDATE VIEW", "Đã cập nhật lượt nghe bài hát")
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.e("UPDATE VIEW ERR", "Không cập nhật được")
+            }
+        })
     }
 
     override fun onResume() {
@@ -235,7 +244,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             }
 
             setAudio(position)
-            btPlay.setImageResource(R.drawable.ic_play_24)
+            btPlay.setImageResource(R.drawable.ic_icons8_play)
             mediaPlayer.pause()
         }
     }
@@ -260,8 +269,6 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
                 if (position + 1 > listSongs.size - 1) 0 else position + 1
             }
 
-            Log.e("pos", position.toString())
-
             setAudio(position)
             mediaPlayer.setOnCompletionListener(this)
         } else {
@@ -275,7 +282,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             }
 
             setAudio(position)
-            btPlay.setImageResource(R.drawable.ic_play_24)
+            btPlay.setImageResource(R.drawable.ic_icons8_play)
             mediaPlayer.pause()
         }
     }
@@ -291,11 +298,11 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
 
     private fun playPauseBtnClicked() {
         if (mediaPlayer.isPlaying) {
-            btPlay.setImageResource(R.drawable.ic_play_24)
+            btPlay.setImageResource(R.drawable.ic_icons8_play)
             mediaPlayer.pause()
             rivImg.animation = null
         } else {
-            btPlay.setImageResource(R.drawable.ic_baseline_pause_24)
+            btPlay.setImageResource(R.drawable.ic_icons8_pause)
             mediaPlayer.start()
             rivImg.startAnimation(
                 AnimationUtils.loadAnimation(this, R.anim.route)
@@ -342,7 +349,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             mediaPlayer.start()
         } else {
             nextBtnClicked()
-            btPlay.setImageResource(R.drawable.ic_baseline_pause_24)
+            btPlay.setImageResource(R.drawable.ic_icons8_pause)
             mediaPlayer.start()
             mediaPlayer.setOnCompletionListener(this)
         }

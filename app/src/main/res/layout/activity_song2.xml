@@ -101,15 +101,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         android:text="@string/now_playing"
         android:textAllCaps="true"
-        android:textStyle="bold"
-        android:gravity="center"
         android:textColor="@color/colorPrimaryText"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/btBack"
@@ -162,8 +162,8 @@
             android:background="@drawable/bg_play_button"
             android:contentDescription="@string/play_button"
             android:padding="4dp"
-            android:scaleType="center"
-            android:src="@drawable/ic_play_24"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_icons8_play"
             android:tint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/btHeart"
             app:layout_constraintEnd_toEndOf="parent"
@@ -171,14 +171,14 @@
 
         <ImageButton
             android:id="@+id/btPrev"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="35dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="@dimen/margin_x_large"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/prev_button"
             android:padding="5dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_previous"
+            android:src="@drawable/ic_icons8_skip_to_start"
             android:tint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="@id/btPlay"
             app:layout_constraintEnd_toStartOf="@id/btPlay"
@@ -187,14 +187,14 @@
 
         <ImageButton
             android:id="@+id/btNext"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="35dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="@dimen/margin_x_large"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/next_button"
             android:padding="5dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_next"
+            android:src="@drawable/ic_icons8_end"
             android:tint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="@id/btPlay"
             app:layout_constraintStart_toEndOf="@id/btPlay"
@@ -202,45 +202,46 @@
 
         <ImageButton
             android:id="@+id/btShuffle"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="@dimen/margin_x_large"
-            android:background="@null"
-            android:contentDescription="@string/shuffle_button"
-            android:scaleType="matrix"
-            android:src="@drawable/ic_shuffle"
-            app:layout_constraintBottom_toBottomOf="@+id/btHeart"
-            app:layout_constraintEnd_toStartOf="@+id/btHeart"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btHeart" />
-
-        <ImageButton
-            android:id="@+id/btHeart"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginBottom="@dimen/margin_large"
-            android:background="@null"
-            android:contentDescription="@string/heart"
+            android:layout_marginStart="@dimen/margin_x_large"
+            android:layout_marginTop="@dimen/margin_x_small"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/shuffle_button"
+            android:paddingLeft="13dp"
+            android:paddingTop="@dimen/padding_medium"
             android:scaleType="center"
-            android:src="@drawable/ic_heart"
-            android:tint="#FF0000"
+            android:src="@drawable/ic_shuffle"
+            app:layout_constraintBottom_toBottomOf="@id/btPlay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btPlay" />
+
+        <TextView
+            android:id="@+id/btHeart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:text="LYRICS"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+
         <ImageButton
             android:id="@+id/btRepeat"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="@dimen/margin_x_large"
-            android:background="@null"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/repeat_button"
-            android:scaleType="matrix"
+            android:paddingLeft="13dp"
+            android:paddingTop="@dimen/padding_medium"
+            android:scaleType="center"
             android:src="@drawable/ic_repeat"
-            app:layout_constraintBottom_toBottomOf="@+id/btHeart"
+            app:layout_constraintBottom_toBottomOf="@id/btPlay"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btHeart"
-            app:layout_constraintTop_toTopOf="@+id/btHeart" />
+            app:layout_constraintTop_toTopOf="@id/btPlay" />
 
         <SeekBar
             android:id="@+id/playerSeekBar"

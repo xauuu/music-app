@@ -29,7 +29,7 @@ interface ApiClient {
 
 //    Cập nhật lượt nghe bài hát
     @PUT("/api/update-view/{id}")
-    fun updateSong(@Path("id") id: Int)
+    fun updateSong(@Path("id") id: Int): Call<Void>
 
     @GET("api/search/{keyword}")
     fun search(@Path("keyword") keyword: String): Call<ArrayList<Music>>
