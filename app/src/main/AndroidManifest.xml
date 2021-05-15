@@ -11,14 +11,23 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_app"
         android:label="@string/app_name"
         android:launchMode="singleTop"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalProject"
         android:usesCleartextTraffic="true">
+
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activity.WebActivity"
             android:parentActivityName=".activity.LoginActivity">
@@ -26,23 +35,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.LoginActivity" />
         </activity>
+
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/FullScreen" />
+
         <activity
             android:name=".activity.AlbumSongsActivity"
             android:theme="@style/FullScreen" />
+
         <activity
             android:name=".activity.SongActivity"
             android:theme="@style/FullScreen" />
+
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/FullScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <service
