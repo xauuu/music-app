@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
     android:padding="10dp">
 
     <com.makeramen.roundedimageview.RoundedImageView
@@ -55,9 +56,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_baseline_more_horiz_24"
+        android:padding="@dimen/padding_small"
+        android:src="@drawable/ic_heart"
         android:tint="#757575"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

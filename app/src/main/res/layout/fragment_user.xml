@@ -70,11 +70,11 @@
 
             <ImageButton
                 android:id="@+id/btEdit"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@null"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackground"
                 android:contentDescription="Edit"
-                android:padding="@dimen/padding_small"
+                android:padding="@dimen/padding_medium"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_baseline_edit_24"
                 app:layout_constraintBottom_toBottomOf="@+id/avatar"
@@ -108,9 +108,11 @@
         app:layout_constraintTop_toBottomOf="@id/layoutInfo">
 
         <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nvShare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_shadow"
+            android:scrollbars="none"
             app:itemTextAppearance="@style/menu_text_style"
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -131,10 +133,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_shadow"
+            android:scrollbars="none"
             app:itemTextAppearance="@style/menu_text_style"
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/log_out" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xx_large"
+        android:text="XMusicG version 1.0"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutLogout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

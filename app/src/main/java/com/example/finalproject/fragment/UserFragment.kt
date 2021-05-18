@@ -1,10 +1,12 @@
 package com.example.finalproject.fragment
 
 import android.app.Activity.*
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -23,10 +25,12 @@ class UserFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     lateinit var btLogin: Button
     lateinit var layoutAcc: ConstraintLayout
     lateinit var layoutLogout: ConstraintLayout
+    lateinit var nvShare: NavigationView
     lateinit var navigationView: NavigationView
     lateinit var tvName: TextView
     lateinit var tvEmail: TextView
     lateinit var sharePref: SharedPreferences
+    lateinit var dialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +49,10 @@ class UserFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         tvName = view.findViewById(R.id.tvName)
         tvEmail = view.findViewById(R.id.email)
         navigationView = view.findViewById(R.id.nvLogout)
-        sharePref = requireContext().getSharedPreferences("user", Context.MODE_PRIVATE)
         navigationView.setNavigationItemSelectedListener(this)
+        nvShare = view.findViewById(R.id.nvShare)
+        nvShare.setNavigationItemSelectedListener(this)
+        sharePref = requireContext().getSharedPreferences("user", Context.MODE_PRIVATE)
 
         btLogin.setOnClickListener {
             startActivityForResult(
@@ -85,6 +91,17 @@ class UserFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             R.id.logout -> {
                 sharePref.edit().clear().apply()
                 checkSession()
+            }
+            R.id.nav_share -> {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "Tải xuống ứng dụng tại http://xmusicg.herokuapp.com/dowload")
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
             }
         }
         return true

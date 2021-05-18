@@ -25,16 +25,21 @@ class AlbumAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+//        Lấy từng phần tử(object) của mảng tại vị trí
         val item = list_album[position]
+//        Load ảnh
         Glide.with(context).load(item.imageUrl).into(holder.imageAlbum)
+//        set tên album
         holder.albumName.text = item.name
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, AlbumSongsActivity::class.java)
+//            Gửi id, tên, ảnh, năm của album đó qua AlbumSongsActivity
             intent.putExtra("id", item.id)
             intent.putExtra("name", item.name)
             intent.putExtra("image", item.imageUrl)
             intent.putExtra("year", item.year)
+//            startActivity
             context.startActivity(intent)
         }
     }

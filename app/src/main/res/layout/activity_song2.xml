@@ -158,7 +158,7 @@
             android:id="@+id/btPlay"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginBottom="@dimen/margin_xx_large"
+            android:layout_marginBottom="40dp"
             android:background="@drawable/bg_play_button"
             android:contentDescription="@string/play_button"
             android:padding="4dp"
@@ -202,8 +202,8 @@
 
         <ImageButton
             android:id="@+id/btShuffle"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="@dimen/margin_x_large"
             android:layout_marginTop="@dimen/margin_x_small"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -230,8 +230,8 @@
 
         <ImageButton
             android:id="@+id/btRepeat"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginEnd="@dimen/margin_x_large"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/repeat_button"

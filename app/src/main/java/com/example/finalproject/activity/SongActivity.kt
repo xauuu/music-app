@@ -1,11 +1,20 @@
 package com.example.finalproject.activity
 
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.PorterDuff.Mode.*
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.media.MediaPlayer.OnCompletionListener
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -16,16 +25,17 @@ import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toast.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.*
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.bumptech.glide.Glide
 import com.example.finalproject.R
 import com.example.finalproject.api.ApiAdapter
 import com.example.finalproject.model.Music
+import com.example.finalproject.service.CreateNotification
+import com.example.finalproject.service.OnClearFromRecentService
 import com.makeramen.roundedimageview.RoundedImageView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -60,9 +70,30 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
     lateinit var prevThread: Thread
     lateinit var nextThread: Thread
 
+    lateinit var notificationManager: NotificationManager
+
+    val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+
+            when (intent?.getStringExtra("actionname")) {
+                CreateNotification().ACTION_PREVIOUS -> prevBtnClicked()
+                CreateNotification().ACTION_PLAY -> playPauseBtnClicked()
+                CreateNotification().ACTION_NEXT -> nextBtnClicked()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_song2)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel()
+            registerReceiver(broadcastReceiver, IntentFilter("XMusicG"))
+            startService(Intent(baseContext, OnClearFromRecentService::class.java))
+
+        }
 
         initView()
         getIntentMethod()
@@ -104,34 +135,18 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             }
         }).start()
 
-        btShuffle.setOnClickListener {
-            if (shuffleBoolean) {
-                shuffleBoolean = false
-                btShuffle.setColorFilter(getColor(applicationContext, R.color.colorPrimaryText), SRC_IN)
-            } else {
-                shuffleBoolean = true
-                btShuffle.setColorFilter(getColor(applicationContext, R.color.colorAccent), SRC_IN)
-                Toast.makeText(this, "Ngẫu nhiên", Toast.LENGTH_SHORT).show()
-            }
 
-        }
+    }
 
-        btRepeat.setOnClickListener {
-            if (repeatBoolean) {
-                repeatBoolean = false
-                btRepeat.setImageResource(R.drawable.ic_repeat)
-                btRepeat.setColorFilter(getColor(applicationContext, R.color.colorPrimaryText), SRC_IN)
-                Toast.makeText(this, "Huỷ lặp bài hát hiện tại", Toast.LENGTH_SHORT).show()
-            } else {
-                repeatBoolean = true
-                btRepeat.setImageResource(R.drawable.ic_repeat1)
-                btRepeat.setColorFilter(getColor(applicationContext, R.color.colorAccent), SRC_IN)
-                Toast.makeText(this, "Lặp bài hát hiện tại", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        btBack.setOnClickListener {
-            onBackPressed()
+    private fun createChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CreateNotification().CHANNEL_ID,
+                "XMusicG",
+                NotificationManager.IMPORTANCE_LOW
+            )
+            notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
         }
     }
 
@@ -148,18 +163,69 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         seekBar = findViewById(R.id.playerSeekBar)
         tvCurrentTime = findViewById(R.id.tvCurrentTime)
         tvTotalTime = findViewById(R.id.tvTotalTime)
-//        visualizer = findViewById(R.id.blast)
+
+        //       Khi click nut ngau nhien
+        btShuffle.setOnClickListener {
+            if (shuffleBoolean) {
+                shuffleBoolean = false
+                btShuffle.setColorFilter(
+                    getColor(applicationContext, R.color.colorPrimaryText),
+                    SRC_IN
+                )
+            } else {
+                shuffleBoolean = true
+                btShuffle.setColorFilter(getColor(applicationContext, R.color.colorAccent), SRC_IN)
+                makeText(this, "Ngẫu nhiên", LENGTH_SHORT).show()
+            }
+
+        }
+
+//        Khi click nut lap lai
+        btRepeat.setOnClickListener {
+            if (repeatBoolean) {
+                repeatBoolean = false
+                btRepeat.setImageResource(R.drawable.ic_repeat)
+                btRepeat.setColorFilter(
+                    getColor(applicationContext, R.color.colorPrimaryText),
+                    SRC_IN
+                )
+                makeText(this, "Huỷ lặp bài hát hiện tại", LENGTH_SHORT).show()
+            } else {
+                repeatBoolean = true
+                btRepeat.setImageResource(R.drawable.ic_repeat1)
+                btRepeat.setColorFilter(getColor(applicationContext, R.color.colorAccent), SRC_IN)
+                makeText(this, "Lặp bài hát hiện tại", LENGTH_SHORT).show()
+            }
+        }
+
+//        Khi click nut quay lai
+        btBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun getIntentMethod() {
+//        Lấy vị trí bài hát khi click
         position = intent.getIntExtra("position", -1)
         check = intent.getIntExtra("check", -1)
+//        Lấy danh sách bài hát gửi qua khi click
         listSongs = intent.getSerializableExtra("list") as ArrayList<Music>
 
         setAudio(position)
     }
 
     private fun setAudio(pos: Int) {
+
+        CreateNotification().createNotification(
+            this,
+            listSongs[pos],
+            R.drawable.ic_icons8_pause,
+            pos,
+            listSongs.size - 1,
+            true
+        )
+
+
         btPlay.setImageResource(R.drawable.ic_icons8_pause)
 
         tvTitle.ellipsize = TextUtils.TruncateAt.MARQUEE
@@ -167,6 +233,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         tvTitle.text = listSongs[pos].name
         tvArtist.text = listSongs[pos].artist
 
+//        Load ảnh
         if (check == 0) {
             Glide.with(this).load(listSongs[pos].imageUrl).into(rivImg)
         } else {
@@ -177,13 +244,17 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
                 Glide.with(this).load(R.drawable.beauty).into(rivImg)
             }
         }
-
+//        set ảnh quay tròn
         rivImg.startAnimation(
             AnimationUtils.loadAnimation(this, R.anim.route)
         )
+//        Khởi tạo mediaPlayer với đường dẫn
         mediaPlayer = MediaPlayer.create(applicationContext, Uri.parse(listSongs[pos].songUrl))
+//        Start
         mediaPlayer.start()
+//        Thêm sự kiện khi hoàn thành 1 bài hát
         mediaPlayer.setOnCompletionListener(this)
+//        Set seekbar max = thời lượng của bài hát
         seekBar.max = mediaPlayer.duration
 
         tvTotalTime.text = formattedTime(mediaPlayer.duration / 1000)
@@ -221,16 +292,19 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
     }
 
     private fun prevBtnClicked() {
+//        Nếu đang hát, thì dừng lại
         if (mediaPlayer.isPlaying) {
             mediaPlayer.stop()
             mediaPlayer.release()
 
+//            Lấy vị trí của bài hát trước đó
             position = if (shuffleBoolean) {
+//                Nếu có ngẫu nhiên, thì nó sẽ lấy ngãu nhiên
                 Random.nextInt((listSongs.size - 1) + 1)
             } else {
+//                Không thì nó sẽ lấy vị trí trước đó
                 if (position - 1 < 0) listSongs.size - 1 else position - 1
             }
-            Log.e("pos", position.toString())
             setAudio(position)
             mediaPlayer.setOnCompletionListener(this)
         } else {
@@ -296,13 +370,47 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         playThread.start()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun playPauseBtnClicked() {
+//        Nếu đang phát
         if (mediaPlayer.isPlaying) {
-            btPlay.setImageResource(R.drawable.ic_icons8_play)
+            CreateNotification().createNotification(
+                this,
+                listSongs[position],
+                R.drawable.ic_icons8_play,
+                position,
+                listSongs.size - 1,
+                false
+            )
+            btPlay.setImageDrawable(resources.getDrawable(R.drawable.pause_to_play))
+            val drawable: Drawable = btPlay.drawable
+            if (drawable is AnimatedVectorDrawableCompat) {
+                drawable.start()
+            } else {
+                if (drawable is AnimatedVectorDrawable) {
+                    drawable.start()
+                }
+            }
             mediaPlayer.pause()
             rivImg.animation = null
         } else {
-            btPlay.setImageResource(R.drawable.ic_icons8_pause)
+            CreateNotification().createNotification(
+                this,
+                listSongs[position],
+                R.drawable.ic_icons8_pause,
+                position,
+                listSongs.size - 1,
+                true
+            )
+            btPlay.setImageDrawable(resources.getDrawable(R.drawable.play_to_pause))
+            val drawable: Drawable = btPlay.drawable
+            if (drawable is AnimatedVectorDrawableCompat) {
+                drawable.start()
+            } else {
+                if (drawable is AnimatedVectorDrawable) {
+                    drawable.start()
+                }
+            }
             mediaPlayer.start()
             rivImg.startAnimation(
                 AnimationUtils.loadAnimation(this, R.anim.route)
@@ -310,6 +418,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         }
     }
 
+    //    Lấy ảnh nhạc trong máy
     private fun getAlbumArt(uri: String): ByteArray? {
         val retriever: MediaMetadataRetriever = MediaMetadataRetriever()
         retriever.setDataSource(uri)
@@ -336,18 +445,26 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
 
     override fun onDestroy() {
         super.onDestroy()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.cancelAll()
+        }
+        unregisterReceiver(broadcastReceiver)
         mediaPlayer.stop()
         mediaPlayer.release()
     }
 
+    //    Khi hoàn thành bài hát
     override fun onCompletion(mp: MediaPlayer?) {
+//        Nếu check = 0 thì cập nhật lượt nghe
         if (check == 0) {
             updateViews(listSongs[position].id)
         }
+//    Nếu có lặp lại, thì seekBar sẽ về lại 00
         if (repeatBoolean) {
             mediaPlayer.seekTo(0)
             mediaPlayer.start()
         } else {
+//            Không thì nó sẽ nhảy tới bài hát tiếp theo
             nextBtnClicked()
             btPlay.setImageResource(R.drawable.ic_icons8_pause)
             mediaPlayer.start()

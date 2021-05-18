@@ -53,9 +53,10 @@
             android:theme="@style/FullScreen">
         </activity>
 
+        <receiver android:name=".service.NotificationActionService"/>
+
         <service
-            android:name=".service.MusicService"
-            android:enabled="true" />
+            android:name=".service.OnClearFromRecentService"/>
 
         <meta-data
             android:name="preloaded_fonts"
