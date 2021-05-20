@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.media.MediaMetadataRetriever
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
@@ -33,6 +34,7 @@ class CreateNotification {
         playButton: Int,
         pos: Int,
         size: Int,
+        check: Int,
         isPlaying: Boolean
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -54,8 +56,7 @@ class CreateNotification {
                     PendingIntent.FLAG_UPDATE_CURRENT,
                 )
                 drw_previous = R.drawable.ic_icons8_skip_to_start
-            }
-
+            }   
             val intentPlay = Intent(context, NotificationActionService::class.java)
                 .setAction(ACTION_PLAY)
             val pendingIntentPlay = PendingIntent.getBroadcast(
@@ -100,22 +101,53 @@ class CreateNotification {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setOngoing(isPlaying)
 
-            Glide.with(context).asBitmap().load(music.imageUrl).into(object :
-                CustomTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+            if (check == 0) {
+                Glide.with(context).asBitmap().load(music.imageUrl).into(object :
+                    CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
 
-                    notificationBuilder.setLargeIcon(resource)
-                    val notification = notificationBuilder.build()
-                    notificationManagerCompat.notify(1, notification)
-                }
+                        notificationBuilder.setLargeIcon(resource)
+                        val notification = notificationBuilder.build()
+                        notificationManagerCompat.notify(1, notification)
+                    }
 
-                override fun onLoadCleared(placeholder: Drawable?) {
+                    override fun onLoadCleared(placeholder: Drawable?) {
 
-                }
+                    }
+                })
+            } else {
+                val img = music.imageUrl?.let { getAlbumArt(it) }
+                Glide.with(context).asBitmap().load(img).into(object :
+                    CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
 
-            })
+                        notificationBuilder.setLargeIcon(resource)
+                        val notification = notificationBuilder.build()
+                        notificationManagerCompat.notify(1, notification)
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+
+                    }
+                })
+            }
 
 
         }
+    }
+
+    private fun getAlbumArt(uri: String): ByteArray? {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(uri)
+        val art: ByteArray? = retriever.embeddedPicture
+        retriever.release()
+
+        return art
     }
 }

@@ -112,7 +112,7 @@ class LibraryFragment : Fragment() {
                 val artist = cursor.getString(artistColumn)
                 val uriPath = cursor.getString(uriColumn)
 
-                tempAudioList.add(Music(id, name, album, artist, "", uriPath))
+                tempAudioList.add(Music(id, name, album, artist, uriPath, uriPath))
             }
         }
         return tempAudioList

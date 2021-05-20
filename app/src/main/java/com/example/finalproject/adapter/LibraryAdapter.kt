@@ -34,9 +34,9 @@ class LibraryAdapter(
         val image: ByteArray? = item.songUrl?.let { holder.getAlbumArt(it) }
 
         if (image != null) {
-            Glide.with(context).asBitmap().load(image).into(holder.img)
+            Glide.with(context).asBitmap().load(image).placeholder(R.drawable.loading_anim).into(holder.img)
         } else {
-            Glide.with(context).load(R.drawable.beauty).into(holder.img)
+            Glide.with(context).load(R.drawable.beauty).placeholder(R.drawable.loading_anim).into(holder.img)
         }
 
         holder.itemView.setOnClickListener {

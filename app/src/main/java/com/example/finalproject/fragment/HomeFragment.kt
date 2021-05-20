@@ -58,6 +58,8 @@ class HomeFragment : Fragment() {
         callAlbum.enqueue(object : Callback<ArrayList<Album>> {
             override fun onResponse(call: Call<ArrayList<Album>>, response: Response<ArrayList<Album>>) {
                 albums = response.body()!!
+                Log.e("listalbum", albums.toString())
+                Log.e("album", albums[0].toString())
                 albumsRV.adapter = AlbumAdapter(albums, requireContext())
             }
 

@@ -43,9 +43,10 @@ class AlbumSongsActivity : AppCompatActivity() {
 
 //        Lấy dữ liệu từ intent
         albumId = intent.getIntExtra("id", -1)
+
         Glide.with(this).load(intent.getStringExtra("image")).into(albumArt)
         albumName.text = intent.getStringExtra("name")
-        albumYear.text = intent.getIntExtra("Year", 2021).toString()
+        albumYear.text = intent.getIntExtra("year", 2021).toString()
 
 //        REST API và đổ dữ liệu vào recyclerview
         val service = ApiAdapter.makeRetrofitService

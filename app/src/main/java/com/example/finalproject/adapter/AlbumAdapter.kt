@@ -14,7 +14,7 @@ import com.example.finalproject.R
 import com.example.finalproject.model.Album
 
 class AlbumAdapter(
-    private val list_album: ArrayList<Album>,
+    private val listAlbum: ArrayList<Album>,
     private val context: Context,
 ) : RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
 
@@ -24,11 +24,14 @@ class AlbumAdapter(
         return ViewHolder(view)
     }
 
+    //    Găn dữ liệu cho từng item
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 //        Lấy từng phần tử(object) của mảng tại vị trí
-        val item = list_album[position]
+        val item = listAlbum[position]
 //        Load ảnh
-        Glide.with(context).load(item.imageUrl).into(holder.imageAlbum)
+        Glide.with(context).load(item.imageUrl)
+            .placeholder(R.drawable.loading_anim)
+            .into(holder.imageAlbum)
 //        set tên album
         holder.albumName.text = item.name
 
@@ -44,7 +47,7 @@ class AlbumAdapter(
         }
     }
 
-    override fun getItemCount() = list_album.size
+    override fun getItemCount() = listAlbum.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageAlbum: ImageView = itemView.findViewById(R.id.imAlbum)

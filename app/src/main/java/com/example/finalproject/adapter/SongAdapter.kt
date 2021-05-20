@@ -27,7 +27,7 @@ class SongAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var item = data[position]
-        Glide.with(context).load(item.imageUrl).into(holder.img)
+        Glide.with(context).load(item.imageUrl).placeholder(R.drawable.loading_anim).into(holder.img)
         holder.text1.text = item.name
         holder.text2.text = item.artist
 

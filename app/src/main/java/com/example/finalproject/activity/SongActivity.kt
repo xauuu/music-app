@@ -7,9 +7,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.PorterDuff.Mode.*
+import android.graphics.PorterDuff.Mode.SRC_IN
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.media.MediaPlayer.OnCompletionListener
@@ -24,10 +28,10 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.Toast
-import android.widget.Toast.*
+import android.widget.Toast.LENGTH_SHORT
+import android.widget.Toast.makeText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.*
+import androidx.core.content.ContextCompat.getColor
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.bumptech.glide.Glide
 import com.example.finalproject.R
@@ -39,7 +43,11 @@ import com.makeramen.roundedimageview.RoundedImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.abs
+import kotlin.math.sqrt
+import kotlin.properties.Delegates
 import kotlin.random.Random
+
 
 class SongActivity : AppCompatActivity(), OnCompletionListener {
 
@@ -66,13 +74,9 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
     private var position = -1
     private var check = -1
 
-    lateinit var playThread: Thread
-    lateinit var prevThread: Thread
-    lateinit var nextThread: Thread
-
     lateinit var notificationManager: NotificationManager
 
-    val broadcastReceiver = object : BroadcastReceiver() {
+    private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
 
             when (intent?.getStringExtra("actionname")) {
@@ -87,54 +91,26 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_song2)
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createChannel()
-            registerReceiver(broadcastReceiver, IntentFilter("XMusicG"))
-            startService(Intent(baseContext, OnClearFromRecentService::class.java))
-
-        }
-
         initView()
         getIntentMethod()
+        seekBar()
 
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser) {
-                    mediaPlayer.seekTo(progress)
+        val sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        val pro = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        val listener = object : SensorEventListener {
+            override fun onSensorChanged(event: SensorEvent?) {
+                if (event != null) {
+
                 }
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
 
             }
 
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
-            }
-        })
-
-        @SuppressLint("HandlerLeak")
-        val handler = object : Handler() {
-            override fun handleMessage(msg: Message) {
-                val currentPosition = msg.what
-
-                seekBar.progress = currentPosition
-                tvCurrentTime.text = formattedTime(currentPosition / 1000)
-            }
         }
-        Thread(Runnable {
-            while (true) {
-                try {
-                    var msg = Message()
-                    msg.what = mediaPlayer.currentPosition
-                    handler.sendMessage(msg)
-                    Thread.sleep(100)
-                } catch (e: InterruptedException) {
-                }
-            }
-        }).start()
 
+        sensorManager.registerListener(listener, pro, SensorManager.SENSOR_DELAY_NORMAL)
 
     }
 
@@ -163,6 +139,18 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         seekBar = findViewById(R.id.playerSeekBar)
         tvCurrentTime = findViewById(R.id.tvCurrentTime)
         tvTotalTime = findViewById(R.id.tvTotalTime)
+
+        btPrev.setOnClickListener {
+            prevBtnClicked()
+        }
+
+        btPlay.setOnClickListener {
+            playPauseBtnClicked()
+        }
+
+        btNext.setOnClickListener {
+            nextBtnClicked()
+        }
 
         //       Khi click nut ngau nhien
         btShuffle.setOnClickListener {
@@ -215,14 +203,14 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
     }
 
     private fun setAudio(pos: Int) {
-
         CreateNotification().createNotification(
             this,
             listSongs[pos],
             R.drawable.ic_icons8_pause,
             pos,
             listSongs.size - 1,
-            true
+            check,
+            true,
         )
 
 
@@ -261,6 +249,46 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
 
     }
 
+    private fun seekBar() {
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    mediaPlayer.seekTo(progress)
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+        })
+
+        @SuppressLint("HandlerLeak")
+        val handler = object : Handler() {
+            override fun handleMessage(msg: Message) {
+                val currentPosition = msg.what
+
+                seekBar.progress = currentPosition
+                tvCurrentTime.text = formattedTime(currentPosition / 1000)
+            }
+        }
+
+        Thread(Runnable {
+            while (true) {
+                try {
+                    val msg = Message()
+                    msg.what = mediaPlayer.currentPosition
+                    handler.sendMessage(msg)
+                    Thread.sleep(100)
+                } catch (e: InterruptedException) {
+                }
+            }
+        }).start()
+    }
+
     private fun updateViews(id: Int) {
         val service = ApiAdapter.makeRetrofitService
         val call = service.updateSong(id)
@@ -276,20 +304,15 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
     }
 
     override fun onResume() {
-        playThreadBtn()
-        nextThreadBtn()
-        prevThreadBtn()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel()
+            registerReceiver(broadcastReceiver, IntentFilter("XMusicG"))
+            startService(Intent(baseContext, OnClearFromRecentService::class.java))
+
+        }
         super.onResume()
     }
 
-    private fun prevThreadBtn() {
-        prevThread = Thread {
-            btPrev.setOnClickListener {
-                prevBtnClicked()
-            }
-        }
-        prevThread.start()
-    }
 
     private fun prevBtnClicked() {
 //        Nếu đang hát, thì dừng lại
@@ -305,6 +328,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
 //                Không thì nó sẽ lấy vị trí trước đó
                 if (position - 1 < 0) listSongs.size - 1 else position - 1
             }
+
             setAudio(position)
             mediaPlayer.setOnCompletionListener(this)
         } else {
@@ -321,15 +345,6 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             btPlay.setImageResource(R.drawable.ic_icons8_play)
             mediaPlayer.pause()
         }
-    }
-
-    private fun nextThreadBtn() {
-        nextThread = Thread {
-            btNext.setOnClickListener {
-                nextBtnClicked()
-            }
-        }
-        nextThread.start()
     }
 
     private fun nextBtnClicked() {
@@ -361,15 +376,6 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         }
     }
 
-    private fun playThreadBtn() {
-        playThread = Thread {
-            btPlay.setOnClickListener {
-                playPauseBtnClicked()
-            }
-        }
-        playThread.start()
-    }
-
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun playPauseBtnClicked() {
 //        Nếu đang phát
@@ -380,6 +386,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
                 R.drawable.ic_icons8_play,
                 position,
                 listSongs.size - 1,
+                check,
                 false
             )
             btPlay.setImageDrawable(resources.getDrawable(R.drawable.pause_to_play))
@@ -400,6 +407,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
                 R.drawable.ic_icons8_pause,
                 position,
                 listSongs.size - 1,
+                check,
                 true
             )
             btPlay.setImageDrawable(resources.getDrawable(R.drawable.play_to_pause))
