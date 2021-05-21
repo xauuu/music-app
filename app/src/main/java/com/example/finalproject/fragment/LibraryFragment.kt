@@ -1,20 +1,19 @@
 package com.example.finalproject.fragment
 
-import android.Manifest
-import android.Manifest.permission.*
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ProgressBar
+import android.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
+import com.example.finalproject.activity.MainActivity
 import com.example.finalproject.adapter.LibraryAdapter
 import com.example.finalproject.model.Music
 import com.github.ybq.android.spinkit.style.Wave
@@ -31,12 +30,15 @@ class LibraryFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     lateinit var view1: View
     lateinit var progressBar: ProgressBar
+    lateinit var searchView: SearchView
+    lateinit var adapter: LibraryAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
 
         view1 = inflater.inflate(R.layout.fragment_library, container, false)
-
         progressBar = view1.findViewById(R.id.progressBar)
         val wave = Wave()
         wave.color = resources.getColor(R.color.colorAccent)
@@ -47,18 +49,35 @@ class LibraryFragment : Fragment() {
             loadSong()
             progressBar.visibility = View.GONE
         }
+
+        searchView = view1.findViewById(R.id.search)
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+
+        })
+
         return view1
     }
+
 
     private fun loadSong() {
         CoroutineScope(Dispatchers.IO).launch {
             withContext(context = Dispatchers.Main) {
                 musicFiles = getAllAudio(requireContext())
-                recyclerView.adapter = LibraryAdapter(musicFiles, requireContext())
+                adapter = LibraryAdapter(musicFiles, requireContext())
+                recyclerView.adapter = adapter
             }
         }
 
     }
+
 
     private fun checkPermission(): Boolean {
         val permission = ContextCompat.checkSelfPermission(requireContext(), READ_EXTERNAL_STORAGE)
@@ -69,14 +88,18 @@ class LibraryFragment : Fragment() {
         return true
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray,
+    ) {
 
         when (requestCode) {
             REQUEST_CODE -> {
                 if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(arrayOf(READ_EXTERNAL_STORAGE), REQUEST_CODE)
                 } else {
-                   loadSong()
+                    loadSong()
                 }
             }
         }
@@ -88,16 +111,16 @@ class LibraryFragment : Fragment() {
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
         val projection = arrayOf(
-                MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.TITLE,
-                MediaStore.Audio.Media.ALBUM,
-                MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.DATA)
+            MediaStore.Audio.Media._ID,
+            MediaStore.Audio.Media.TITLE,
+            MediaStore.Audio.Media.ALBUM,
+            MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.DATA)
 
         val sortOrder = "${MediaStore.Audio.Media.TITLE} ASC"
 
         context.contentResolver.query(
-                uri, projection, null, null, sortOrder, null)?.use { cursor ->
+            uri, projection, null, null, sortOrder, null)?.use { cursor ->
 
             val idColumn = cursor.getColumnIndex(MediaStore.Audio.Media._ID)
             val nameColumn = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
