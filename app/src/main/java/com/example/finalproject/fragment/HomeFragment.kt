@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +36,7 @@ class HomeFragment : Fragment() {
     lateinit var songs: ArrayList<Music>
     lateinit var albums: ArrayList<Album>
     lateinit var more: ImageButton
+    lateinit var layout: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +44,9 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        layout = view.findViewById(R.id.layout)
+        layout.visibility = View.GONE
 
         progressBar = view.findViewById(R.id.progressBar)
         val wave = Wave()
@@ -79,6 +84,7 @@ class HomeFragment : Fragment() {
                 songs = response.body()!!
                 bxhRV.adapter = SongAdapter(songs, requireContext())
 
+                layout.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
             }
 
