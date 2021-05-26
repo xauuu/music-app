@@ -13,9 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
-import com.example.finalproject.activity.MainActivity
 import com.example.finalproject.adapter.LibraryAdapter
-import com.example.finalproject.model.Music
+import com.example.finalproject.model.Song
 import com.github.ybq.android.spinkit.style.Wave
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +25,7 @@ import kotlinx.coroutines.withContext
 class LibraryFragment : Fragment() {
 
     private var REQUEST_CODE = 1
-    private var musicFiles: ArrayList<Music> = ArrayList()
+    private var songFiles: ArrayList<Song> = ArrayList()
     private lateinit var recyclerView: RecyclerView
     lateinit var view1: View
     lateinit var progressBar: ProgressBar
@@ -70,8 +69,8 @@ class LibraryFragment : Fragment() {
     private fun loadSong() {
         CoroutineScope(Dispatchers.IO).launch {
             withContext(context = Dispatchers.Main) {
-                musicFiles = getAllAudio(requireContext())
-                adapter = LibraryAdapter(musicFiles, requireContext())
+                songFiles = getAllAudio(requireContext())
+                adapter = LibraryAdapter(songFiles, requireContext())
                 recyclerView.adapter = adapter
             }
         }
@@ -105,8 +104,8 @@ class LibraryFragment : Fragment() {
         }
     }
 
-    private fun getAllAudio(context: Context): ArrayList<Music> {
-        val tempAudioList: ArrayList<Music> = ArrayList()
+    private fun getAllAudio(context: Context): ArrayList<Song> {
+        val tempAudioList: ArrayList<Song> = ArrayList()
 
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
@@ -135,7 +134,7 @@ class LibraryFragment : Fragment() {
                 val artist = cursor.getString(artistColumn)
                 val uriPath = cursor.getString(uriColumn)
 
-                tempAudioList.add(Music(id, name, album, artist, uriPath, uriPath))
+                tempAudioList.add(Song(id, name, album, artist, uriPath, uriPath))
             }
         }
         return tempAudioList

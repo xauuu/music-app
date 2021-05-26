@@ -52,7 +52,9 @@ class LoginActivity : AppCompatActivity() {
         register = findViewById(R.id.register)
 
         register.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, WebActivity::class.java))
+            val intent = Intent(this, WebActivity::class.java)
+            intent.putExtra("url", "http://xmusicg.herokuapp.com/register")
+            startActivity(intent)
         }
 
         dialog = ProgressDialog(this)

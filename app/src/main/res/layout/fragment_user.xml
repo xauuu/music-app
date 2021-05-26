@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorHint"
+    android:background="@color/colorBackground"
     tools:context=".fragment.UserFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -39,9 +39,9 @@
                 android:id="@+id/avatar"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/xau"
                 android:background="@drawable/bg_shadow_image"
                 android:padding="0.5dp"
+                android:src="@drawable/xau"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:riv_corner_radius="50dp" />

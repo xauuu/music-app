@@ -11,15 +11,18 @@
 
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#3f51b5</color>
-    <color name="colorAccent">#f44336</color>
+    <color name="colorAccent">#EE7879 </color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorBackground">#f3f3f3</color>
     <color name="colorStroke">#bdbdbd</color>
     <color name="colorHint">#ececec</color>
+    <color name="colorHintt">#E1FCFD</color>
 
     <color name="home">#5B37B7</color>
     <color name="search">#E6A919</color>
     <color name="library">#C9379D</color>
-    <color name="setting">#13D3B4</color>
+    <color name="setting">#d2d4dc</color>
+
+    <color name="giangg">#F5B935</color>
 </resources>

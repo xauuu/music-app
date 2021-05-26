@@ -12,7 +12,6 @@ import com.example.finalproject.R
 
 class WebActivity : AppCompatActivity() {
 
-    private val url = "http://xmusicg.herokuapp.com/register"
     private lateinit var webView: WebView
     private lateinit var progressBar: ProgressBar
 
@@ -20,8 +19,12 @@ class WebActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
 
+        val url = intent.getStringExtra("url")
+
         webView = findViewById(R.id.webView)
         progressBar = findViewById(R.id.progressBar)
+
+        webView.settings.javaScriptEnabled = true
 
         webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, weburl: String) {
@@ -40,7 +43,10 @@ class WebActivity : AppCompatActivity() {
                 }
             }
         }
-        webView.loadUrl(url)
+
+        if (url != null) {
+            webView.loadUrl(url)
+        }
 
     }
 

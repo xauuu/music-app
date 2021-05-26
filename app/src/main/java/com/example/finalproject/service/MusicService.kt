@@ -7,13 +7,13 @@ import android.net.Uri
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
-import com.example.finalproject.model.Music
+import com.example.finalproject.model.Song
 
 class MusicService: Service() {
 
     var mIBinder: IBinder = MusicBinder()
     var mediaPlayer: MediaPlayer? = null
-    var musicList: ArrayList<Music> = ArrayList()
+    var songList: ArrayList<Song> = ArrayList()
     lateinit var uri: Uri
     private var postion = -1
 

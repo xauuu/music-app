@@ -13,12 +13,7 @@ import com.example.finalproject.R
 import com.example.finalproject.adapter.AlbumAdapter
 import com.example.finalproject.model.Album
 import com.example.finalproject.api.ApiAdapter
-import com.example.finalproject.model.Music
-import com.github.ybq.android.spinkit.style.Wave
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.github.ybq.android.spinkit.style.FadingCircle
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,7 +31,7 @@ class AlbumFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_album, container, false)
         recyclerView = view.findViewById(R.id.rvAlbum)
         progressBar = view.findViewById(R.id.progressBar)
-        val wave = Wave()
+        val wave = FadingCircle()
         wave.color = resources.getColor(R.color.colorAccent)
         progressBar.indeterminateDrawable = wave
         recyclerView.layoutManager = GridLayoutManager(context, 2)

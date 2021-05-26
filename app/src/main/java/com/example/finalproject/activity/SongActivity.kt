@@ -10,10 +10,6 @@ import android.content.IntentFilter
 import android.graphics.PorterDuff.Mode.SRC_IN
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.media.MediaPlayer.OnCompletionListener
@@ -36,16 +32,13 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.bumptech.glide.Glide
 import com.example.finalproject.R
 import com.example.finalproject.api.ApiAdapter
-import com.example.finalproject.model.Music
+import com.example.finalproject.model.Song
 import com.example.finalproject.service.CreateNotification
 import com.example.finalproject.service.OnClearFromRecentService
 import com.makeramen.roundedimageview.RoundedImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.math.abs
-import kotlin.math.sqrt
-import kotlin.properties.Delegates
 import kotlin.random.Random
 
 
@@ -53,7 +46,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
 
     private var mediaPlayer = MediaPlayer()
 
-    private var listSongs: ArrayList<Music> = ArrayList()
+    private var listSongs: ArrayList<Song> = ArrayList()
 
     lateinit var tvTitle: TextView
     lateinit var tvArtist: TextView
@@ -94,23 +87,6 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         initView()
         getIntentMethod()
         seekBar()
-
-        val sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
-        val pro = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-        val listener = object : SensorEventListener {
-            override fun onSensorChanged(event: SensorEvent?) {
-                if (event != null) {
-
-                }
-            }
-
-            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-
-            }
-
-        }
-
-        sensorManager.registerListener(listener, pro, SensorManager.SENSOR_DELAY_NORMAL)
 
     }
 
@@ -157,7 +133,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             if (shuffleBoolean) {
                 shuffleBoolean = false
                 btShuffle.setColorFilter(
-                    getColor(applicationContext, R.color.colorPrimaryText),
+                    getColor(applicationContext, R.color.giangg),
                     SRC_IN
                 )
             } else {
@@ -174,7 +150,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
                 repeatBoolean = false
                 btRepeat.setImageResource(R.drawable.ic_repeat)
                 btRepeat.setColorFilter(
-                    getColor(applicationContext, R.color.colorPrimaryText),
+                    getColor(applicationContext, R.color.giangg),
                     SRC_IN
                 )
                 makeText(this, "Huỷ lặp bài hát hiện tại", LENGTH_SHORT).show()
@@ -197,7 +173,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         position = intent.getIntExtra("position", -1)
         check = intent.getIntExtra("check", -1)
 //        Lấy danh sách bài hát gửi qua khi click
-        listSongs = intent.getSerializableExtra("list") as ArrayList<Music>
+        listSongs = intent.getSerializableExtra("list") as ArrayList<Song>
 
         setAudio(position)
     }

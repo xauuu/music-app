@@ -2,7 +2,6 @@ package com.example.finalproject.activity
 
 
 import android.os.Bundle
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
@@ -13,35 +12,58 @@ import okhttp3.*
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var toolbar: ActionBar
+
     lateinit var fragment: Fragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val navigation: ChipNavigationBar = findViewById(R.id.bottom_navigation)
         navigation.setItemSelected(R.id.home, true)
+//        set khi click
         navigation.setOnItemSelectedListener { item ->
             when (item) {
+//                Nếu click vô home
                 R.id.home -> {
+//                    load homeFragment vô fragment
                     Navigation.findNavController(
                         this@MainActivity, R.id.nav_host_fragment
-                    ).navigate(R.id.homeFragment, null, getNavOptions())
+                    ).navigate(
+                        R.id.homeFragment,
+                        null,
+                        getNavOptions()
+                    )
                 }
                 R.id.search -> {
                     Navigation.findNavController(
-                        this@MainActivity, R.id.nav_host_fragment
-                    ).navigate(R.id.searchFragment, null, getNavOptions())
+                        this@MainActivity,
+                        R.id.nav_host_fragment
+                    ).navigate(
+                        R.id.searchFragment,
+                        null,
+                        getNavOptions()
+                    )
                 }
                 R.id.library -> {
                     Navigation.findNavController(
-                        this@MainActivity, R.id.nav_host_fragment
-                    ).navigate(R.id.libraryFragment, null, getNavOptions())
+                        this@MainActivity,
+                        R.id.nav_host_fragment
+                    ).navigate(
+                        R.id.libraryFragment,
+                        null,
+                        getNavOptions()
+                    )
                 }
-                R.id.setting -> {
+                R.id.user -> {
                     Navigation.findNavController(
-                        this@MainActivity, R.id.nav_host_fragment
-                    ).navigate(R.id.userFragment, null, getNavOptions())
+                        this@MainActivity,
+                        R.id.nav_host_fragment
+                    ).navigate(
+                        R.id.userFragment,
+                        null,
+                        getNavOptions()
+                    )
                 }
             }
         }

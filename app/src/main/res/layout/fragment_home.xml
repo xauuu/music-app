@@ -25,7 +25,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorHint">
+            android:background="@color/colorBackground">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -44,6 +44,19 @@
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+<!--                <com.synnapps.carouselview.CarouselView-->
+<!--                    android:id="@+id/carouselView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="200dp"-->
+<!--                    android:layout_marginTop="@dimen/margin_x_large"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:fillColor="#FFFFFFFF"-->
+<!--                    app:pageColor="#00000000"-->
+<!--                    app:radius="6dp"-->
+<!--                    app:slideInterval="3000"-->
+<!--                    app:strokeColor="#FF777777"-->
+<!--                    app:strokeWidth="1dp"/>-->
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutAlbum"
@@ -93,6 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_x_large"
                     android:background="@drawable/bg_shadow"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layoutAlbum">
 
                     <TextView
@@ -110,9 +124,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recentlyPlayed" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/recentlyPlayed"
+                        app:layout_constraintVertical_bias="0.0" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 

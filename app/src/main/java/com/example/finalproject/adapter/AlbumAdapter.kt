@@ -20,7 +20,7 @@ class AlbumAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.album_item, parent, false)
+        val view = layoutInflater.inflate(R.layout.item_album, parent, false)
         return ViewHolder(view)
     }
 

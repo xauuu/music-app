@@ -16,8 +16,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.finalproject.R
-import com.example.finalproject.activity.SongActivity
-import com.example.finalproject.model.Music
+import com.example.finalproject.model.Song
 
 class CreateNotification {
     val CHANNEL_ID = "channel1"
@@ -30,7 +29,7 @@ class CreateNotification {
     @SuppressLint("WrongConstant")
     fun createNotification(
         context: Context,
-        music: Music,
+        song: Song,
         playButton: Int,
         pos: Int,
         size: Int,
@@ -88,9 +87,9 @@ class CreateNotification {
                 .setMediaSession(mediaSessionCompat.sessionToken)
 
             val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_heart)
-                .setContentTitle(music.name)
-                .setContentText(music.artist)
+                .setSmallIcon(R.drawable.ic_icons8_music)
+                .setContentTitle(song.name)
+                .setContentText(song.artist)
                 .setOnlyAlertOnce(true)
                 .setShowWhen(false)
                 .addAction(drw_previous, "Previous", pendingIntentPrevious)
@@ -102,7 +101,7 @@ class CreateNotification {
                 .setOngoing(isPlaying)
 
             if (check == 0) {
-                Glide.with(context).asBitmap().load(music.imageUrl).into(object :
+                Glide.with(context).asBitmap().load(song.imageUrl).into(object :
                     CustomTarget<Bitmap>() {
                     override fun onResourceReady(
                         resource: Bitmap,
@@ -119,7 +118,7 @@ class CreateNotification {
                     }
                 })
             } else {
-                val img = music.imageUrl?.let { getAlbumArt(it) }
+                val img = song.imageUrl?.let { getAlbumArt(it) }
                 Glide.with(context).asBitmap().load(img).into(object :
                     CustomTarget<Bitmap>() {
                     override fun onResourceReady(

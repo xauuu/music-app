@@ -2,9 +2,8 @@ package com.example.finalproject.api
 
 import com.example.finalproject.model.Album
 import com.example.finalproject.model.CheckUser
-import com.example.finalproject.model.Music
+import com.example.finalproject.model.Song
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 // Định nghĩa các phương thức gửi lên sv
@@ -17,7 +16,7 @@ interface ApiClient {
 
 //    Lấy tất cả bài hát
     @GET("/api/music")
-    fun getSongs(): Call<ArrayList<Music>>
+    fun getSongs(): Call<ArrayList<Song>>
 
 //    Lấy tất cả album
     @GET("/api/album")
@@ -25,13 +24,13 @@ interface ApiClient {
 
 //    Lấy tất cả bài hát thuộc album
     @GET("/api/album/{id}")
-    fun getSongInAlbum(@Path("id") id: Int): Call<ArrayList<Music>>
+    fun getSongInAlbum(@Path("id") id: Int): Call<ArrayList<Song>>
 
 //    Cập nhật lượt nghe bài hát
     @PUT("/api/update-view/{id}")
     fun updateSong(@Path("id") id: Int): Call<Void>
 
     @GET("api/search/{keyword}")
-    fun search(@Path("keyword") keyword: String): Call<ArrayList<Music>>
+    fun search(@Path("keyword") keyword: String): Call<ArrayList<Song>>
 
 }

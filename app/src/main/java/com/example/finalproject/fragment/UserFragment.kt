@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.finalproject.activity.LoginActivity
 import com.example.finalproject.R
+import com.example.finalproject.activity.WebActivity
 import com.google.android.material.navigation.NavigationView
 
 
@@ -30,7 +31,6 @@ class UserFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     lateinit var tvName: TextView
     lateinit var tvEmail: TextView
     lateinit var sharePref: SharedPreferences
-    lateinit var dialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,10 +92,17 @@ class UserFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                 sharePref.edit().clear().apply()
                 checkSession()
             }
+
+            R.id.nav_about -> {
+                val intent = Intent(activity, WebActivity::class.java)
+                intent.putExtra("url", "http://xmusicg.herokuapp.com/download")
+                startActivity(intent)
+            }
+
             R.id.nav_share -> {
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, "Tải xuống ứng dụng tại http://xmusicg.herokuapp.com/dowload")
+                    putExtra(Intent.EXTRA_TEXT, "Tải xuống ứng dụng tại http://xmusicg.herokuapp.com/download")
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
                     type = "text/plain"
                 }

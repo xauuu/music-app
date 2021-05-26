@@ -1,23 +1,19 @@
 package com.example.finalproject.activity
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.finalproject.R
 import com.example.finalproject.adapter.SongAdapter
 import com.example.finalproject.api.ApiAdapter
-import com.example.finalproject.model.Music
-import com.github.ybq.android.spinkit.style.Wave
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.finalproject.model.Song
+import com.github.ybq.android.spinkit.style.FadingCircle
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,8 +26,8 @@ class AlbumSongsActivity : AppCompatActivity() {
     lateinit var albumName: TextView
     lateinit var albumYear: TextView
     lateinit var sectionBackButton: Button
-    lateinit var albumSongsDuration: TextView
-    lateinit var songs: ArrayList<Music>
+    lateinit var amount: TextView
+    lateinit var songs: ArrayList<Song>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,14 +47,16 @@ class AlbumSongsActivity : AppCompatActivity() {
 //        REST API và đổ dữ liệu vào recyclerview
         val service = ApiAdapter.makeRetrofitService
         val callSong = service.getSongInAlbum(albumId)
-        callSong.enqueue(object : Callback<ArrayList<Music>> {
-            override fun onResponse(call: Call<ArrayList<Music>>, response: Response<ArrayList<Music>>) {
+        callSong.enqueue(object : Callback<ArrayList<Song>> {
+            @SuppressLint("SetTextI18n")
+            override fun onResponse(call: Call<ArrayList<Song>>, response: Response<ArrayList<Song>>) {
                 songs = response.body()!!
+                amount.text = "${songs.size} Bài hát"
                 recyclerView.adapter = SongAdapter(songs, this@AlbumSongsActivity)
                 progressBar.visibility = View.GONE
             }
 
-            override fun onFailure(call: Call<ArrayList<Music>>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<Song>>, t: Throwable) {
                 t.message?.let { Log.e("ERROR LOAD SONG", it) }
             }
 
@@ -73,14 +71,14 @@ class AlbumSongsActivity : AppCompatActivity() {
 
     private fun init() {
         progressBar = findViewById(R.id.progressBar)
-        val wave = Wave()
+        val wave = FadingCircle()
         wave.color = resources.getColor(R.color.colorAccent)
         progressBar.indeterminateDrawable = wave
         recyclerView = findViewById(R.id.albumSongsRV)
         albumArt = findViewById(R.id.albumArt)
         albumName = findViewById(R.id.albumName)
         albumYear = findViewById(R.id.albumYear)
-        albumSongsDuration = findViewById(R.id.albumSongsDuration)
+        amount = findViewById(R.id.amount)
         sectionBackButton = findViewById(R.id.sectionBackButton)
     }
 }

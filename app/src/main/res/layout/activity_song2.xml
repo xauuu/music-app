@@ -64,11 +64,13 @@
         android:layout_width="280dp"
         android:layout_height="280dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/beauty"
+        android:src="@drawable/xau"
         app:layout_constraintBottom_toBottomOf="@id/viewSupportForAlbumArt"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/viewSupportForAlbumArt"
+        app:layout_constraintVertical_bias="0.501"
         app:riv_corner_radius="150dp" />
 
     <TextView
@@ -212,6 +214,7 @@
             android:paddingTop="@dimen/padding_medium"
             android:scaleType="center"
             android:src="@drawable/ic_shuffle"
+            android:tint="@color/giangg"
             app:layout_constraintBottom_toBottomOf="@id/btPlay"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/btPlay" />
@@ -239,6 +242,7 @@
             android:paddingTop="@dimen/padding_medium"
             android:scaleType="center"
             android:src="@drawable/ic_repeat"
+            android:tint="@color/giangg"
             app:layout_constraintBottom_toBottomOf="@id/btPlay"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/btPlay" />

@@ -13,24 +13,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.finalproject.R
 import com.example.finalproject.activity.SongActivity
-import com.example.finalproject.model.Music
+import com.example.finalproject.model.Song
 import com.makeramen.roundedimageview.RoundedImageView
 import java.util.*
 import kotlin.collections.ArrayList
 
 class LibraryAdapter(
-        private val data: ArrayList<Music>,
-        private val context: Context,
+    private val data: ArrayList<Song>,
+    private val context: Context,
 ): RecyclerView.Adapter<LibraryAdapter.ViewHolder>(), Filterable {
 
-    var songFilterList = ArrayList<Music>()
+    var songFilterList = ArrayList<Song>()
     init {
         songFilterList = data
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibraryAdapter.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.song_item, parent, false)
+        val view = layoutInflater.inflate(R.layout.item_song, parent, false)
         return ViewHolder(view)
     }
 
@@ -69,7 +69,7 @@ class LibraryAdapter(
                 songFilterList = if (charSearch.isEmpty()) {
                     data
                 } else {
-                    val resultList = ArrayList<Music>()
+                    val resultList = ArrayList<Song>()
                     for (row in data) {
                         if (row.name?.toLowerCase(Locale.ROOT)?.contains(charSearch.toLowerCase(Locale.ROOT)) == true) {
                             resultList.add(row)
@@ -84,7 +84,7 @@ class LibraryAdapter(
 
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                songFilterList = results?.values as ArrayList<Music>
+                songFilterList = results?.values as ArrayList<Song>
                 notifyDataSetChanged()
             }
 
@@ -93,7 +93,7 @@ class LibraryAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val img: RoundedImageView = itemView.findViewById(R.id.ivItemImage)
-        val text1: TextView = itemView.findViewById(R.id.songTitle)
+        val text1: TextView = itemView.findViewById(R.id.songName)
         val text2: TextView = itemView.findViewById(R.id.songArtist)
 
         fun getAlbumArt(uri: String): ByteArray? {
