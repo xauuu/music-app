@@ -14,11 +14,16 @@ import com.example.finalproject.adapter.SongAdapter
 import com.example.finalproject.api.ApiAdapter
 import com.example.finalproject.model.Song
 import com.github.ybq.android.spinkit.style.FadingCircle
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class AlbumSongsActivity : AppCompatActivity() {
+
     private var albumId = -1
     lateinit var recyclerView: RecyclerView
     lateinit var progressBar: ProgressBar
@@ -33,8 +38,15 @@ class AlbumSongsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_album_songs)
 
-        init()
+        progressBar = findViewById(R.id.progressBar)
 
+        albumArt = findViewById(R.id.albumArt)
+        albumName = findViewById(R.id.albumName)
+        albumYear = findViewById(R.id.albumYear)
+        amount = findViewById(R.id.amount)
+        sectionBackButton = findViewById(R.id.sectionBackButton)
+
+        recyclerView = findViewById(R.id.albumSongsRV)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
 //        Lấy dữ liệu từ intent
@@ -44,41 +56,26 @@ class AlbumSongsActivity : AppCompatActivity() {
         albumName.text = intent.getStringExtra("name")
         albumYear.text = intent.getIntExtra("year", 2021).toString()
 
-//        REST API và đổ dữ liệu vào recyclerview
         val service = ApiAdapter.makeRetrofitService
-        val callSong = service.getSongInAlbum(albumId)
-        callSong.enqueue(object : Callback<ArrayList<Song>> {
-            @SuppressLint("SetTextI18n")
-            override fun onResponse(call: Call<ArrayList<Song>>, response: Response<ArrayList<Song>>) {
-                songs = response.body()!!
-                amount.text = "${songs.size} Bài hát"
-                recyclerView.adapter = SongAdapter(songs, this@AlbumSongsActivity)
-                progressBar.visibility = View.GONE
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = service.getSongInAlbum(albumId)
+                withContext(context = Dispatchers.Main) {
+                    songs = response.body()!!
+                    amount.text = "${songs.size} Bài hát"
+                    recyclerView.adapter = SongAdapter(songs, this@AlbumSongsActivity)
+                    progressBar.visibility = View.GONE
 
-            override fun onFailure(call: Call<ArrayList<Song>>, t: Throwable) {
-                t.message?.let { Log.e("ERROR LOAD SONG", it) }
+                }
+            } catch (e: Exception) {
+                e.message?.run { Log.e("NETWORK", this) }
             }
-
-        })
+        }
 
 //        set on click cho button back
         sectionBackButton.setOnClickListener {
             onBackPressed()
         }
-
     }
 
-    private fun init() {
-        progressBar = findViewById(R.id.progressBar)
-        val wave = FadingCircle()
-        wave.color = resources.getColor(R.color.colorAccent)
-        progressBar.indeterminateDrawable = wave
-        recyclerView = findViewById(R.id.albumSongsRV)
-        albumArt = findViewById(R.id.albumArt)
-        albumName = findViewById(R.id.albumName)
-        albumYear = findViewById(R.id.albumYear)
-        amount = findViewById(R.id.amount)
-        sectionBackButton = findViewById(R.id.sectionBackButton)
-    }
 }

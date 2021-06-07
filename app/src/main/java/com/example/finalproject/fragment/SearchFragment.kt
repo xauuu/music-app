@@ -39,9 +39,6 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
         progressBar = view.findViewById(R.id.progressBar)
-        val wave = FadingCircle()
-        wave.color = resources.getColor(R.color.colorAccent)
-        progressBar.indeterminateDrawable = wave
 
         searchView = view.findViewById(R.id.searchV)
         searchView.setOnQueryTextListener(this)

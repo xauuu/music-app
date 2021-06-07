@@ -1,12 +1,10 @@
 package com.example.finalproject.fragment
 
 import android.app.Activity.*
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -26,8 +24,8 @@ class UserFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     lateinit var btLogin: Button
     lateinit var layoutAcc: ConstraintLayout
     lateinit var layoutLogout: ConstraintLayout
-    lateinit var nvShare: NavigationView
-    lateinit var navigationView: NavigationView
+    lateinit var nvMenu: NavigationView
+    lateinit var nvLogout: NavigationView
     lateinit var tvName: TextView
     lateinit var tvEmail: TextView
     lateinit var sharePref: SharedPreferences
@@ -48,10 +46,11 @@ class UserFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         layoutLogout = view.findViewById(R.id.layoutLogout)
         tvName = view.findViewById(R.id.tvName)
         tvEmail = view.findViewById(R.id.email)
-        navigationView = view.findViewById(R.id.nvLogout)
-        navigationView.setNavigationItemSelectedListener(this)
-        nvShare = view.findViewById(R.id.nvShare)
-        nvShare.setNavigationItemSelectedListener(this)
+        nvLogout = view.findViewById(R.id.nvLogout)
+        nvLogout.setNavigationItemSelectedListener(this)
+        nvMenu = view.findViewById(R.id.nvMenu)
+        nvMenu.setNavigationItemSelectedListener(this)
+
         sharePref = requireContext().getSharedPreferences("user", Context.MODE_PRIVATE)
 
         btLogin.setOnClickListener {

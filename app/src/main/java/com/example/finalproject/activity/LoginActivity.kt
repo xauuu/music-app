@@ -21,7 +21,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class LoginActivity : AppCompatActivity() {
 
     lateinit var email: EditText
@@ -91,7 +90,6 @@ class LoginActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
 
             }
-
         })
     }
 

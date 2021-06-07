@@ -36,6 +36,10 @@ import com.example.finalproject.model.Song
 import com.example.finalproject.service.CreateNotification
 import com.example.finalproject.service.OnClearFromRecentService
 import com.makeramen.roundedimageview.RoundedImageView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -69,6 +73,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
 
     lateinit var notificationManager: NotificationManager
 
+    //tb
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
 
@@ -84,12 +89,20 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_song2)
 
+        //tb
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel()
+            registerReceiver(broadcastReceiver, IntentFilter("XMusicG"))
+            startService(Intent(baseContext, OnClearFromRecentService::class.java))
+
+        }
+
         initView()
         getIntentMethod()
         seekBar()
-
     }
 
+    //tb
     private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -141,7 +154,6 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
                 btShuffle.setColorFilter(getColor(applicationContext, R.color.colorAccent), SRC_IN)
                 makeText(this, "Ngẫu nhiên", LENGTH_SHORT).show()
             }
-
         }
 
 //        Khi click nut lap lai
@@ -174,7 +186,6 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         check = intent.getIntExtra("check", -1)
 //        Lấy danh sách bài hát gửi qua khi click
         listSongs = intent.getSerializableExtra("list") as ArrayList<Song>
-
         setAudio(position)
     }
 
@@ -189,9 +200,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             true,
         )
 
-
         btPlay.setImageResource(R.drawable.ic_icons8_pause)
-
         tvTitle.ellipsize = TextUtils.TruncateAt.MARQUEE
         tvTitle.isSelected = true
         tvTitle.text = listSongs[pos].name
@@ -220,9 +229,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         mediaPlayer.setOnCompletionListener(this)
 //        Set seekbar max = thời lượng của bài hát
         seekBar.max = mediaPlayer.duration
-
         tvTotalTime.text = formattedTime(mediaPlayer.duration / 1000)
-
     }
 
     private fun seekBar() {
@@ -246,7 +253,6 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         val handler = object : Handler() {
             override fun handleMessage(msg: Message) {
                 val currentPosition = msg.what
-
                 seekBar.progress = currentPosition
                 tvCurrentTime.text = formattedTime(currentPosition / 1000)
             }
@@ -267,89 +273,42 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
 
     private fun updateViews(id: Int) {
         val service = ApiAdapter.makeRetrofitService
-        val call = service.updateSong(id)
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                Log.d("UPDATE VIEW", "Đã cập nhật lượt nghe bài hát")
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                service.updateSong(id)
+            } catch (e: Exception) {
+                e.message?.let { Log.e("ERROR UPDATE", it) }
             }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.e("UPDATE VIEW ERR", "Không cập nhật được")
-            }
-        })
-    }
-
-    override fun onResume() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createChannel()
-            registerReceiver(broadcastReceiver, IntentFilter("XMusicG"))
-            startService(Intent(baseContext, OnClearFromRecentService::class.java))
-
         }
-        super.onResume()
     }
-
 
     private fun prevBtnClicked() {
-//        Nếu đang hát, thì dừng lại
-        if (mediaPlayer.isPlaying) {
-            mediaPlayer.stop()
-            mediaPlayer.release()
+        mediaPlayer.stop()
+        mediaPlayer.release()
 
 //            Lấy vị trí của bài hát trước đó
-            position = if (shuffleBoolean) {
+        position = if (shuffleBoolean) {
 //                Nếu có ngẫu nhiên, thì nó sẽ lấy ngãu nhiên
-                Random.nextInt((listSongs.size - 1) + 1)
-            } else {
-//                Không thì nó sẽ lấy vị trí trước đó
-                if (position - 1 < 0) listSongs.size - 1 else position - 1
-            }
-
-            setAudio(position)
-            mediaPlayer.setOnCompletionListener(this)
+            Random.nextInt((listSongs.size - 1) + 1)
         } else {
-            mediaPlayer.stop()
-            mediaPlayer.release()
-
-            position = if (shuffleBoolean) {
-                Random.nextInt((listSongs.size - 1) + 1)
-            } else {
-                if (position - 1 < 0) listSongs.size - 1 else position - 1
-            }
-
-            setAudio(position)
-            btPlay.setImageResource(R.drawable.ic_icons8_play)
-            mediaPlayer.pause()
+//                Không thì nó sẽ lấy vị trí trước đó
+            if (position - 1 < 0) listSongs.size - 1 else position - 1
         }
+
+        setAudio(position)
     }
 
     private fun nextBtnClicked() {
-        if (mediaPlayer.isPlaying) {
-            mediaPlayer.stop()
-            mediaPlayer.release()
+        mediaPlayer.stop()
+        mediaPlayer.release()
 
-            position = if (shuffleBoolean) {
-                Random.nextInt((listSongs.size - 1) + 1)
-            } else {
-                if (position + 1 > listSongs.size - 1) 0 else position + 1
-            }
-
-            setAudio(position)
-            mediaPlayer.setOnCompletionListener(this)
+        position = if (shuffleBoolean) {
+            Random.nextInt((listSongs.size - 1) + 1)
         } else {
-            mediaPlayer.stop()
-            mediaPlayer.release()
-
-            position = if (shuffleBoolean) {
-                Random.nextInt((listSongs.size - 1) + 1)
-            } else {
-                if (position + 1 > listSongs.size - 1) 0 else position + 1
-            }
-
-            setAudio(position)
-            btPlay.setImageResource(R.drawable.ic_icons8_play)
-            mediaPlayer.pause()
+            if (position + 1 > listSongs.size - 1) 0 else position + 1
         }
+
+        setAudio(position)
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -454,8 +413,5 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             mediaPlayer.start()
             mediaPlayer.setOnCompletionListener(this)
         }
-
     }
-
-
 }

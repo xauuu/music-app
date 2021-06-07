@@ -27,4 +27,8 @@
         android:name="com.example.finalproject.fragment.UserFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.finalproject.fragment.FavoriteFragment"
+        android:label="FavoriteFragment" />
 </navigation>

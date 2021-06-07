@@ -1,8 +1,15 @@
 package com.example.finalproject.activity
 
 
+import android.content.Intent
+import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -69,18 +76,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-//    private fun loadFragment(fragment: Fragment) {
-//         load fragment
-//        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-//        transaction.replace(R.id.frame_container, fragment)
-//        transaction.addToBackStack(null)
-//        transaction.commit()
-//    }
     private fun getNavOptions(): NavOptions? {
         return NavOptions.Builder()
-            .setEnterAnim(R.anim.default_enter_anim)
-            .setExitAnim(R.anim.default_exit_anim)
+            .setEnterAnim(R.anim.slide_in)
+            .setExitAnim(R.anim.fade_out)
+            .setPopEnterAnim(R.anim.fade_in)
+            .setPopExitAnim(R.anim.slide_out)
             .build()
     }
 }

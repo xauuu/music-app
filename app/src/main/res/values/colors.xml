@@ -9,8 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#1d1b1f</color>
 
-    <color name="colorPrimary">#3f51b5</color>
-    <color name="colorPrimaryDark">#3f51b5</color>
+    <color name="colorPrimary">#070E21</color>
+    <color name="colorPrimaryDark">#070E21</color>
     <color name="colorAccent">#EE7879 </color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>

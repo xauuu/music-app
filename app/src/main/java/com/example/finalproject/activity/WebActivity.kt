@@ -28,7 +28,7 @@ class WebActivity : AppCompatActivity() {
 
         webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, weburl: String) {
-                Log.e("abc", "đã loaas")
+
             }
         }
 
@@ -47,7 +47,6 @@ class WebActivity : AppCompatActivity() {
         if (url != null) {
             webView.loadUrl(url)
         }
-
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -57,5 +56,4 @@ class WebActivity : AppCompatActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
-
 }

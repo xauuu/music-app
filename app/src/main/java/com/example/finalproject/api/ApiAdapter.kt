@@ -15,5 +15,3 @@ object ApiAdapter {
                 .create(ApiClient::class.java)
         }
 }
-
-

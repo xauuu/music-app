@@ -3,9 +3,12 @@ package com.example.finalproject.adapter
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.Image
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -44,6 +47,9 @@ class ChartAdapter(
             intent.putExtra("list", data)
             context.startActivity(intent)
         }
+        holder.heart.setOnClickListener {
+            Log.e("HEART", data[position].id.toString())
+        }
     }
 
     override fun getItemCount(): Int {
@@ -55,5 +61,6 @@ class ChartAdapter(
         val img: RoundedImageView = itemView.findViewById(R.id.ivItemImage)
         val songName: TextView = itemView.findViewById(R.id.songName)
         val songArtist: TextView = itemView.findViewById(R.id.songArtist)
+        val heart: ImageButton = itemView.findViewById(R.id.heart)
     }
 }
