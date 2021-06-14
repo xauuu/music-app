@@ -158,7 +158,7 @@ class DeviceActivity : AppCompatActivity() {
                 val artist = cursor.getString(artistColumn)
                 val uriPath = cursor.getString(uriColumn)
 
-                tempAudioList.add(Song(id, name, album, artist, uriPath, uriPath))
+                tempAudioList.add(Song(id, id, name, album, artist, uriPath, uriPath))
             }
         }
         return tempAudioList

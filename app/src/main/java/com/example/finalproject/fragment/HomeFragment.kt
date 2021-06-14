@@ -17,6 +17,7 @@ import com.example.finalproject.R
 import com.example.finalproject.R.color.colorAccent
 import com.example.finalproject.adapter.AlbumAdapter
 import com.example.finalproject.adapter.ChartAdapter
+import com.example.finalproject.adapter.FavoriteAdapter
 import com.example.finalproject.adapter.SongAdapter
 import com.example.finalproject.api.ApiAdapter
 import com.example.finalproject.model.Album

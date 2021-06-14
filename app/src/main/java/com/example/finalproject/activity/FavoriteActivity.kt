@@ -1,15 +1,24 @@
 package com.example.finalproject.activity
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.Group
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
+import com.example.finalproject.adapter.FavoriteAdapter
+import com.example.finalproject.api.ApiAdapter
 import com.example.finalproject.model.Song
+import kotlinx.coroutines.*
 
 class FavoriteActivity : AppCompatActivity() {
 
@@ -17,7 +26,11 @@ class FavoriteActivity : AppCompatActivity() {
     lateinit var noFavoriteGroup: Group
     lateinit var favoriteGroup: Group
 
+    lateinit var recyclerView: RecyclerView
+    lateinit var tvNum: TextView
+    lateinit var progressBar: ProgressBar
     lateinit var songs: ArrayList<Song>
+    lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +48,41 @@ class FavoriteActivity : AppCompatActivity() {
         noFavoriteGroup = findViewById(R.id.noFGroup)
         favoriteGroup = findViewById(R.id.favoriteGroup)
 
-        favoriteGroup.visibility = View.GONE
-        noFavoriteGroup.visibility = View.VISIBLE
+        progressBar = findViewById(R.id.progressBar2)
+
+        recyclerView = findViewById(R.id.playlistRV)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        tvNum = findViewById(R.id.playlistsNum)
+
+        sharedPref = this.getSharedPreferences("user", Context.MODE_PRIVATE)
+        if (sharedPref.getBoolean("check", false)) {
+            val service = ApiAdapter.makeRetrofitService
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val response = service.allFavorite(sharedPref.getInt("id", -1))
+                    withContext(Dispatchers.Main) {
+                        songs = response.body()!!
+                        progressBar.visibility = View.GONE
+                        if (songs.isEmpty()) {
+                            noFavoriteGroup.visibility = View.VISIBLE
+                            favoriteGroup.visibility = View.GONE
+                        } else {
+                            noFavoriteGroup.visibility = View.GONE
+                            favoriteGroup.visibility = View.VISIBLE
+
+                            recyclerView.adapter = FavoriteAdapter(songs, this@FavoriteActivity)
+                            tvNum.text = "${songs.size} Bài hát"
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.message?.let { Log.e("ERROR FAVORITE", it) }
+                }
+            }
+        } else {
+            progressBar.visibility = View.GONE
+            noFavoriteGroup.visibility = View.VISIBLE
+            favoriteGroup.visibility = View.GONE
+        }
 
     }
 

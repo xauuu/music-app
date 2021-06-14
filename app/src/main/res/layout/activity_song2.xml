@@ -63,6 +63,7 @@
         android:id="@+id/rivImg"
         android:layout_width="280dp"
         android:layout_height="280dp"
+        android:background="@drawable/bg_shadow_image"
         android:scaleType="centerCrop"
         android:src="@drawable/xau"
         app:layout_constraintBottom_toBottomOf="@id/viewSupportForAlbumArt"

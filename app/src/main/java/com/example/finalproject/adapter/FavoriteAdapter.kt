@@ -18,27 +18,27 @@ import com.example.finalproject.api.ApiAdapter
 import com.example.finalproject.model.Song
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.makeramen.roundedimageview.RoundedImageView
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.collections.ArrayList
 
-class SongAdapter(
+class FavoriteAdapter(
     private val data: ArrayList<Song>,
-    private val context: Context
-): RecyclerView.Adapter<SongAdapter.ViewHolder>() {
+    private val context: Context,
+) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.item_song, parent, false)
+        val view = layoutInflater.inflate(R.layout.item_favorite, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position] // lấy từng bài hát
 
-        Glide.with(context).load(item.imageUrl).placeholder(R.drawable.loading_anim).into(holder.img)
+        Glide.with(context).load(item.imageUrl).placeholder(R.drawable.loading_anim)
+            .into(holder.img)
         holder.songName.text = item.name
         holder.songArtist.text = item.artist
 
@@ -52,7 +52,7 @@ class SongAdapter(
 
         holder.more.setOnClickListener {
             val view: View =
-                LayoutInflater.from(context).inflate(R.layout.fragment_bottom_sheet_dialog1, null)
+                LayoutInflater.from(context).inflate(R.layout.fragment_bottom_sheet_dialog, null)
 
             val dialog = BottomSheetDialog(context, R.style.DialogCustomTheme)
 
@@ -66,28 +66,23 @@ class SongAdapter(
                 context.startActivity(intent)
             }
 
-            view.findViewById<Button>(R.id.addF).setOnClickListener {
-                val sharePref = context.getSharedPreferences("user", Context.MODE_PRIVATE)
-                if (sharePref.getBoolean("check", false)) {
+            view.findViewById<Button>(R.id.delete).setOnClickListener {
+                CoroutineScope(Dispatchers.IO).launch {
                     val service = ApiAdapter.makeRetrofitService
-                    GlobalScope.launch(Dispatchers.IO) {
-                        try {
-                            val response = service.addFavorite(
-                                sharePref.getInt("id", -1),
-                                data[position].id)
-                            withContext(Dispatchers.Main) {
-                                if (response.isSuccessful) {
-                                    val result = response.body()
-                                    Toast.makeText(context, result?.message, Toast.LENGTH_SHORT).show()
-                                }
+                    try {
+                        val response = service.deleteFavorite(data[position].idFavorite)
+                        withContext(Dispatchers.Main) {
+                            if (response.isSuccessful) {
+                                val result = response.body()
+                                Toast.makeText(context, result?.message, Toast.LENGTH_SHORT).show()
+                                data.removeAt(position)
+                                notifyDataSetChanged()
+                                dialog.dismiss()
                             }
-                        } catch (e: Exception) {
-                            e.message?.let { Log.e("ERROR FAVORITE", it) }
                         }
+                    } catch (e: Exception) {
+                        e.message?.let { Log.e("ERROR DELETE FAVORITE", it) }
                     }
-
-                } else {
-                    Toast.makeText(context, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -98,6 +93,7 @@ class SongAdapter(
             dialog.setContentView(view)
             dialog.show()
         }
+
     }
 
     override fun getItemCount(): Int {

@@ -1,8 +1,6 @@
 package com.example.finalproject.api
 
-import com.example.finalproject.model.Album
-import com.example.finalproject.model.CheckUser
-import com.example.finalproject.model.Song
+import com.example.finalproject.model.*
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -16,6 +14,7 @@ interface ApiClient {
     fun login(@Field("email") email: String, @Field("password") password: String): Call<CheckUser>
 
 //    Lấy bảng xếp hạng bài hát
+
     @GET("/api/music")
     suspend fun getSongs(): Response<ArrayList<Song>>
 
@@ -34,12 +33,13 @@ interface ApiClient {
     @GET("api/search/{keyword}")
     fun search(@Path("keyword") keyword: String): Call<ArrayList<Song>>
 
-    @GET("api/favorite")
-    suspend fun allFavorite(): Response<ArrayList<Song>>
+    @GET("api/favorite/{id}")
+    suspend fun allFavorite(@Path("id") id: Int): Response<ArrayList<Song>>
 
+    @FormUrlEncoded
     @POST("api/favorite")
-    suspend fun addFavorite(): Response<String>
+    suspend fun addFavorite(@Field("user_id") userId: Int, @Field("song_id") songId: Int): Response<Result>
 
-    @DELETE("api/favorite")
-    suspend fun deleteFavorite(): Response<String>
+    @DELETE("api/favorite/{id}")
+    suspend fun deleteFavorite(@Path("id") id: Int): Response<Result>
 }

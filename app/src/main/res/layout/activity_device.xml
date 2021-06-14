@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent">
+    android:background="@color/giangg">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -48,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:background="@drawable/accent_round_corner"
+            android:backgroundTint="@color/giangg"
             android:drawableStart="@drawable/ic_play_white"
             android:drawablePadding="@dimen/padding_large"
             android:minHeight="0dp"

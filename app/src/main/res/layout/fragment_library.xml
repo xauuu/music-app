@@ -19,6 +19,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <Button
@@ -31,10 +34,11 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/accent_round_corner"
             android:backgroundTint="@color/giangg"
-            android:drawableTop="@drawable/ic_heart"
+            android:drawableTop="@drawable/ic_smartphone"
+            android:drawablePadding="@dimen/padding_medium"
             android:drawableTint="@color/white"
-            android:paddingTop="@dimen/padding_small"
-            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_medium"
+            android:paddingBottom="@dimen/padding_medium"
             android:text="Trên thiết bị"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toStartOf="@+id/btFavorite"
@@ -52,10 +56,11 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/accent_round_corner"
             android:drawableTop="@drawable/ic_heart"
+            android:drawablePadding="@dimen/padding_medium"
             android:drawableTint="@color/white"
+            android:paddingTop="@dimen/padding_medium"
+            android:paddingBottom="@dimen/padding_medium"
             android:text="Yêu thích"
-            android:paddingTop="@dimen/padding_small"
-            android:paddingBottom="@dimen/padding_small"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btDevice"

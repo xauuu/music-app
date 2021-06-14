@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2019 . Wilberforce Uwadiegwu. All Rights Reserved.
+  -->
+
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:padding="@dimen/padding_X_small">
+
+    <LinearLayout
+        android:id="@+id/buttonsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bottom_sheet_round_bg"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/padding_x_large"
+        android:paddingBottom="@dimen/padding_medium">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_x_large"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="@dimen/padding_xx_large"
+            android:paddingEnd="@dimen/padding_xx_large"
+            android:text="Song Name"
+            android:textSize="20sp" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="@dimen/margin_xx_large"
+            android:layout_marginEnd="@dimen/margin_xx_large"
+            android:background="@color/colorSecondaryText" />
+
+        <Button
+            android:id="@+id/play"
+            style="@style/AppTheme.MenuButton"
+            android:drawableStart="@drawable/ic_play"
+            android:drawablePadding="@dimen/padding_xx_large"
+            android:drawableTint="@color/colorPrimaryText"
+            android:text="Phát" />
+
+        <Button
+            android:id="@+id/addF"
+            style="@style/AppTheme.MenuButton"
+            android:drawableStart="@drawable/ic_plus_sign"
+            android:drawablePadding="@dimen/padding_xx_large"
+            android:drawableTint="@color/colorPrimaryText"
+            android:text="Thêm vào yêu thích" />
+
+        <Button
+            android:id="@+id/share"
+            style="@style/AppTheme.MenuButton"
+            android:drawableStart="@drawable/ic_share"
+            android:drawablePadding="@dimen/padding_xx_large"
+            android:drawableTint="@color/colorPrimaryText"
+            android:text="Chia sẻ" />
+
+        <Button
+            android:id="@+id/close"
+            style="@style/AppTheme.MenuButton"
+            android:drawableStart="@drawable/ic_close"
+            android:drawablePadding="@dimen/padding_xx_large"
+            android:drawableTint="@color/colorPrimaryText"
+            android:text="Đóng" />
+
+
+    </LinearLayout>
+
+</FrameLayout>

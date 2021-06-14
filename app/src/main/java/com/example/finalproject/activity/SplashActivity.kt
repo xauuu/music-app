@@ -15,14 +15,14 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        mWaitHandler.postDelayed(Runnable {
-            try {
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-                finish()
-            } catch (ignored: Exception) {
-                ignored.printStackTrace()
-            }
-        }, 2000)
+//        mWaitHandler.postDelayed(Runnable {
+//            try {
+        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+        finish()
+//            } catch (ignored: Exception) {
+//                ignored.printStackTrace()
+//            }
+//        }, 2000)
 
     }
 }

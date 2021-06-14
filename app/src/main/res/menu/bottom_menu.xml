@@ -9,26 +9,26 @@
         android:title="@string/home"
         app:cnb_textColor="#fff"
         app:cnb_iconColor="#fff"
-        app:cnb_backgroundColor="#ff875b"/>
+        app:cnb_backgroundColor="@color/colorAccent"/>
     <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search"
         android:title="@string/search"
         app:cnb_textColor="#fff"
         app:cnb_iconColor="#fff"
-        app:cnb_backgroundColor="#ff875b" />
+        app:cnb_backgroundColor="@color/colorAccent" />
     <item
         android:id="@+id/library"
         android:icon="@drawable/ic_library"
         android:title="@string/library"
         app:cnb_textColor="#fff"
         app:cnb_iconColor="#fff"
-        app:cnb_backgroundColor="#ff875b" />
+        app:cnb_backgroundColor="@color/colorAccent" />
     <item
         android:id="@+id/user"
         android:icon="@drawable/ic_account"
         android:title="@string/account"
         app:cnb_textColor="#fff"
         app:cnb_iconColor="#fff"
-        app:cnb_backgroundColor="#ff875b" />
+        app:cnb_backgroundColor="@color/colorAccent" />
 </menu>

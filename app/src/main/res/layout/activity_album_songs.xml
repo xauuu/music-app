@@ -77,7 +77,7 @@
 
 
                 <ImageButton
-                    android:id="@+id/heart"
+                    android:id="@+id/more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_x_large"

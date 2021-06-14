@@ -44,7 +44,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideLine"
         app:layout_constraintLeft_toRightOf="@+id/ivItemImage"
-        app:layout_constraintRight_toLeftOf="@+id/heart"
+        app:layout_constraintRight_toLeftOf="@+id/more"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.9"
         tools:text="Song Name" />
@@ -65,13 +65,13 @@
 
 
     <ImageButton
-        android:id="@+id/heart"
+        android:id="@+id/more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/padding_small"
-        android:src="@drawable/ic_heart"
+        android:src="@drawable/ic_baseline_more_vert_24"
         android:tint="#757575"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
