@@ -42,7 +42,7 @@
             app:submitBackground="@null" />
 
         <Button
-            android:id="@+id/playButton"
+            android:id="@+id/btRandom"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/playButton" />
+            app:layout_constraintTop_toBottomOf="@+id/btRandom" />
 
 
         <ImageView
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="playButton,playlistRV"
+            app:constraint_referenced_ids="btRandom,playlistRV"
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

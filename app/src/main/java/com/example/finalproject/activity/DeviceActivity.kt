@@ -2,6 +2,7 @@ package com.example.finalproject.activity
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import android.provider.MediaStore
 import android.view.Menu
 import android.view.View
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -24,6 +26,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.random.Random
 
 class DeviceActivity : AppCompatActivity() {
 
@@ -34,6 +37,7 @@ class DeviceActivity : AppCompatActivity() {
     lateinit var progressBar: ProgressBar
     lateinit var searchView: SearchView
     lateinit var adapter: LibraryAdapter
+    lateinit var btRandom: Button
     lateinit var noDGroup: Group
     lateinit var deviceGroup: Group
 
@@ -53,11 +57,14 @@ class DeviceActivity : AppCompatActivity() {
         noDGroup = findViewById(R.id.noDGroup)
         deviceGroup = findViewById(R.id.deviceGroup)
 
+        btRandom = findViewById(R.id.btRandom)
+
         recyclerView = findViewById(R.id.playlistRV)
         recyclerView.layoutManager = LinearLayoutManager(this)
         if (checkPermission()) {
             loadSong()
         }
+
 
         searchView = findViewById(R.id.searchV)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -95,6 +102,14 @@ class DeviceActivity : AppCompatActivity() {
         }
         adapter = LibraryAdapter(songFiles, this@DeviceActivity)
         recyclerView.adapter = adapter
+
+        btRandom.setOnClickListener {
+            val intent = Intent(this, SongActivity::class.java)
+            intent.putExtra("position", Random.nextInt(0, songFiles.size - 1))
+            intent.putExtra("check", 1)
+            intent.putExtra("list", songFiles)
+            startActivity(intent)
+        }
 
     }
 

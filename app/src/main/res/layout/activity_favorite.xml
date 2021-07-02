@@ -38,26 +38,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/playlistsNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_xx_large"
-            android:paddingLeft="@dimen/margin_large"
-            android:paddingRight="@dimen/margin_large"
-            android:text="1206 Bài hát"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/playButton"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <Button
-            android:id="@+id/playButton"
+            android:id="@+id/btRandom"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_large"
             android:layout_marginRight="@dimen/margin_medium"
             android:background="@drawable/accent_round_corner"
             android:drawableStart="@drawable/ic_play_white"
@@ -70,21 +56,22 @@
             android:text="Phát ngẫu nhiên"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_x_small"
-            app:layout_constraintBottom_toBottomOf="@+id/playlistsNum"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintLeft_toRightOf="@+id/playlistsNum"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/playlistsNum" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/playlistRV"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_medium"
             android:paddingTop="@dimen/padding_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/playButton" />
+            app:layout_constraintTop_toBottomOf="@+id/btRandom" />
 
 
         <ImageView
@@ -135,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="playlistsNum,playButton,playlistRV"
+            app:constraint_referenced_ids="btRandom,playlistRV"
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

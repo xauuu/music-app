@@ -56,7 +56,11 @@ class SongAdapter(
 
             val dialog = BottomSheetDialog(context, R.style.DialogCustomTheme)
 
-            view.findViewById<TextView>(R.id.textView3).text = item.name
+            Glide.with(context).load(item.imageUrl).placeholder(R.drawable.loading_anim)
+                .into(view.findViewById<RoundedImageView>(R.id.imSong))
+
+            view.findViewById<TextView>(R.id.tvSongName).text = item.name
+            view.findViewById<TextView>(R.id.tvSongArtist).text = item.artist
 
             view.findViewById<Button>(R.id.play).setOnClickListener {
                 val intent = Intent(context, SongActivity::class.java)
@@ -89,6 +93,17 @@ class SongAdapter(
                 } else {
                     Toast.makeText(context, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show()
                 }
+            }
+
+            view.findViewById<Button>(R.id.share).setOnClickListener {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "Nghe bài hát ${item.name} tại ứng dụng XmusicG")
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+                    type = "text/plain"
+                }
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                context.startActivity(shareIntent)
             }
 
             view.findViewById<Button>(R.id.close).setOnClickListener {

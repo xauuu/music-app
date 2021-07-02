@@ -4,6 +4,7 @@
 
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,17 +21,54 @@
         android:paddingTop="@dimen/padding_x_large"
         android:paddingBottom="@dimen/padding_medium">
 
-        <TextView
-            android:id="@+id/textView3"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_x_large"
-            android:ellipsize="end"
-            android:maxLines="1"
+            android:layout_marginBottom="@dimen/margin_medium"
             android:paddingStart="@dimen/padding_xx_large"
-            android:paddingEnd="@dimen/padding_xx_large"
-            android:text="Song Name"
-            android:textSize="20sp" />
+            android:paddingEnd="@dimen/padding_xx_large">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/imSong"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_corner_radius="5dp"
+                tools:src="@drawable/beauty" />
+
+            <TextView
+                android:id="@+id/tvSongName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Song Name"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guideline3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imSong" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <TextView
+                android:id="@+id/tvSongArtist"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvSongName"
+                app:layout_constraintTop_toBottomOf="@id/guideline3" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/view"
