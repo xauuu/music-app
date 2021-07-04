@@ -31,4 +31,8 @@
         android:id="@+id/favoriteFragment"
         android:name="com.example.finalproject.fragment.FavoriteFragment"
         android:label="FavoriteFragment" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.finalproject.fragment.HistoryFragment"
+        android:label="HistoryFragment" />
 </navigation>

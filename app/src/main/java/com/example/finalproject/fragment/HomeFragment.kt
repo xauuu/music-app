@@ -1,10 +1,12 @@
 package com.example.finalproject.fragment
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
@@ -96,5 +98,6 @@ class HomeFragment : Fragment() {
 
         return view
     }
+
 }
 

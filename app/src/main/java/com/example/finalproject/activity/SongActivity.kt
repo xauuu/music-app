@@ -39,6 +39,7 @@ import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 
@@ -183,6 +184,7 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
 //        Lấy danh sách bài hát gửi qua khi click
         listSongs = intent.getSerializableExtra("list") as ArrayList<Song>
         setAudio(position)
+
     }
 
     private fun setAudio(pos: Int) {
@@ -195,6 +197,8 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
             check,
             true,
         )
+
+        addHistory(listSongs[pos].id)
 
         btPlay.setImageResource(R.drawable.ic_icons8_pause)
         tvTitle.ellipsize = TextUtils.TruncateAt.MARQUEE
@@ -265,6 +269,26 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
                 }
             }
         }).start()
+    }
+
+    private fun addHistory(id: Int) {
+        val sharedPreferences = this.getSharedPreferences("user", Context.MODE_PRIVATE)
+        if (sharedPreferences.getBoolean("check", false) && check == 0) {
+            val service = ApiAdapter.makeRetrofitService
+            GlobalScope.launch(Dispatchers.IO) {
+                try {
+                    val response = service.addHistory(sharedPreferences.getInt("id", -1), id)
+                    withContext(Dispatchers.Main) {
+                        if (response.isSuccessful) {
+                            val result = response.body()!!
+                            Log.e("HISTORY", result.message)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.message?.let { Log.e("ERROR HISTORY", it) }
+                }
+            }
+        }
     }
 
     private fun updateViews(id: Int) {

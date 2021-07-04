@@ -42,4 +42,14 @@ interface ApiClient {
 
     @DELETE("api/favorite/{id}")
     suspend fun deleteFavorite(@Path("id") id: Int): Response<Result>
+
+    @GET("api/history/{id}")
+    suspend fun allHistory(@Path("id") id: Int, @Query("limit") limit: Int?): Response<ArrayList<Song>>
+
+    @FormUrlEncoded
+    @POST("api/history")
+    suspend fun addHistory(@Field("user_id") userId: Int, @Field("song_id") songId: Int): Response<Result>
+
+    @DELETE("api/history/{id}")
+    suspend fun deleteHistory(@Path("id") id: Int): Response<Result>
 }
