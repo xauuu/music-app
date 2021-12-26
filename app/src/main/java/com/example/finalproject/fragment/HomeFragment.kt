@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
 
         progressBar = view.findViewById(R.id.progressBar)
 
-        val images = intArrayOf(R.drawable.beauty, R.drawable.xau)
+        val images = intArrayOf(R.drawable.slide1, R.drawable.slide3, R.drawable.slide2)
         carouselView = view.findViewById(R.id.carouselView)
         carouselView.pageCount = images.size
         carouselView.setImageListener { position, imageView ->

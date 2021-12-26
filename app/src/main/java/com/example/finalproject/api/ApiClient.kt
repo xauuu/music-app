@@ -36,7 +36,7 @@ interface ApiClient {
     @GET("api/favorite/{id}")
     suspend fun allFavorite(@Path("id") id: Int): Response<ArrayList<Song>>
 
-    @FormUrlEncoded
+    @FormUrlEncoded //dùng cái ni như xài form:))
     @POST("api/favorite")
     suspend fun addFavorite(@Field("user_id") userId: Int, @Field("song_id") songId: Int): Response<Result>
 

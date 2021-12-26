@@ -22,8 +22,6 @@ import kotlinx.coroutines.*
 
 class LibraryFragment : Fragment() {
 
-
-
     lateinit var btFavorite: Button
     lateinit var btDevice: Button
 

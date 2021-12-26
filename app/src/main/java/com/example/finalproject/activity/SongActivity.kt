@@ -10,6 +10,10 @@ import android.content.IntentFilter
 import android.graphics.PorterDuff.Mode.SRC_IN
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.media.MediaPlayer.OnCompletionListener
@@ -28,6 +32,7 @@ import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
+import androidx.lifecycle.lifecycleScope
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.bumptech.glide.Glide
 import com.example.finalproject.R
@@ -36,10 +41,11 @@ import com.example.finalproject.model.Song
 import com.example.finalproject.service.CreateNotification
 import com.example.finalproject.service.OnClearFromRecentService
 import com.makeramen.roundedimageview.RoundedImageView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import java.lang.Math.sqrt
+import java.lang.Runnable
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 
@@ -70,6 +76,11 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
 
     lateinit var notificationManager: NotificationManager
 
+    private var sensorManager: SensorManager? = null
+    private var acceleration = 0f
+    private var currentAcceleration = 0f
+    private var lastAcceleration = 0f
+
     //tb
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -85,7 +96,6 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_song2)
-
         //tb
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel()
@@ -97,6 +107,31 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         initView()
         getIntentMethod()
         seekBar()
+
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        Objects.requireNonNull(sensorManager)!!.registerListener(sensorListener, sensorManager!!
+            .getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL)
+        acceleration = 10f
+        currentAcceleration = SensorManager.GRAVITY_EARTH
+        lastAcceleration = SensorManager.GRAVITY_EARTH
+    }
+
+    private val sensorListener: SensorEventListener = object : SensorEventListener {
+        override fun onSensorChanged(event: SensorEvent) {
+            val x = event.values[0]
+            val y = event.values[1]
+            val z = event.values[2]
+            lastAcceleration = currentAcceleration
+            currentAcceleration = kotlin.math.sqrt((x * x + y * y + z * z).toDouble()).toFloat()
+            val delta: Float = currentAcceleration - lastAcceleration
+            acceleration = acceleration * 0.9f + delta
+
+            if (acceleration > 12) {
+                nextBtnClicked()
+                acceleration = 0F
+            }
+        }
+        override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
     }
 
     //tb
@@ -271,13 +306,13 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         }).start()
     }
 
-    private fun addHistory(id: Int) {
+    private fun addHistory(idSong: Int) {
         val sharedPreferences = this.getSharedPreferences("user", Context.MODE_PRIVATE)
         if (sharedPreferences.getBoolean("check", false) && check == 0) {
             val service = ApiAdapter.makeRetrofitService
             GlobalScope.launch(Dispatchers.IO) {
                 try {
-                    val response = service.addHistory(sharedPreferences.getInt("id", -1), id)
+                    val response = service.addHistory(sharedPreferences.getInt("id", -1), idSong)
                     withContext(Dispatchers.Main) {
                         if (response.isSuccessful) {
                             val result = response.body()!!
@@ -404,6 +439,18 @@ class SongActivity : AppCompatActivity(), OnCompletionListener {
         } else {
             totalOut
         }
+    }
+
+    override fun onResume() {
+        sensorManager?.registerListener(sensorListener, sensorManager!!.getDefaultSensor(
+            Sensor .TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL
+        )
+        super.onResume()
+    }
+
+    override fun onPause() {
+        sensorManager!!.unregisterListener(sensorListener)
+        super.onPause()
     }
 
     override fun onDestroy() {

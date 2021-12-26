@@ -52,7 +52,7 @@ class SongAdapter(
 
         holder.more.setOnClickListener {
             val view: View =
-                LayoutInflater.from(context).inflate(R.layout.fragment_bottom_sheet_dialog1, null)
+                LayoutInflater.from(context).inflate(R.layout.fragment_bottom_sheet_dialog_song, null)
 
             val dialog = BottomSheetDialog(context, R.style.DialogCustomTheme)
 

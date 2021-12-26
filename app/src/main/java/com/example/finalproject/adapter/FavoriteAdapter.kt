@@ -52,7 +52,7 @@ class FavoriteAdapter(
 
         holder.more.setOnClickListener {
             val view: View =
-                LayoutInflater.from(context).inflate(R.layout.fragment_bottom_sheet_dialog, null)
+                LayoutInflater.from(context).inflate(R.layout.fragment_bottom_sheet_dialog_favorite, null)
 
             val dialog = BottomSheetDialog(context, R.style.DialogCustomTheme)
 

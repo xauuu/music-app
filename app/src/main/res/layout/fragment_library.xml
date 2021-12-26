@@ -42,6 +42,7 @@
             android:drawableTop="@drawable/ic_smartphone"
             android:drawablePadding="@dimen/padding_medium"
             android:drawableTint="@color/white"
+            android:drawingCacheQuality="high"
             android:paddingTop="@dimen/padding_medium"
             android:paddingBottom="@dimen/padding_medium"
             android:text="Trên thiết bị"
@@ -133,6 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

@@ -47,8 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/padding_x_large"
-            android:paddingTop="@dimen/padding_medium"
-            android:paddingBottom="@dimen/padding_medium"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
             android:text="2 Bài hát"
             android:textColor="@color/colorPrimaryText"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,9 +62,9 @@
             android:drawablePadding="5dp"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:paddingTop="7dp"
+            android:paddingTop="12dp"
             android:paddingEnd="@dimen/padding_x_large"
-            android:paddingBottom="@dimen/padding_small"
+            android:paddingBottom="@dimen/padding_medium"
             android:text="Xoá tất cả"
             android:textColor="@color/colorPrimaryText"
             app:drawableLeftCompat="@drawable/ic_delete"
@@ -84,7 +84,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvListHis1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/view5">
 
         </androidx.recyclerview.widget.RecyclerView>

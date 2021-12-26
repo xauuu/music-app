@@ -51,13 +51,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginTop="@dimen/margin_x_large"
+                    android:background="@drawable/bg_shadow"
+                    app:fillColor="@color/colorAccent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:fillColor="#FFFFFFFF"
                     app:pageColor="#00000000"
                     app:radius="6dp"
                     app:slideInterval="3000"
                     app:strokeColor="#FF777777"
-                    app:strokeWidth="1dp"/>
+                    app:strokeWidth="1dp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutAlbum"
